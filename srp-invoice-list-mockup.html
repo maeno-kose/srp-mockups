@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>シンクロニシティシステムズ - 請求書</title>
+<style>
+  :root {
+    --brand: #1F6FB5;
+    --brand-light: #4A90C8;
+    --brand-dark: #15507F;
+    --accent: #E8822E;
+    --bg: #F4F5F7;
+    --bg-grad-1: #E8F1F8;
+    --bg-grad-2: #F4F5F7;
+    --card: #ffffff;
+    --text: #1C2A36;
+    --text-soft: #5B6B78;
+    --text-mute: #9ca3af;
+    --border: #E2E5EA;
+    --border-soft: #f3f4f6;
+    --soon-bg: #f9fafb;
+    --soon-text: #9ca3af;
+    --success: #82B43A;
+    --success-bg: #EBF5DA;
+    --success-text: #3D6B10;
+    --warning: #f59e0b;
+    --warning-bg: #fef3c7;
+    --warning-text: #92400e;
+    --danger: #D64545;
+    --danger-bg: #FDEAEA;
+    --danger-text: #8B1A1A;
+    --info: #1F6FB5;
+    --info-bg: #E8F1F8;
+    --info-text: #15507F;
+    --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+    --shadow-hover: 0 4px 12px rgba(31,111,181,0.12), 0 2px 4px rgba(0,0,0,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
+                 "Hiragino Sans", "Yu Gothic UI", Meiryo, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .tabular { font-variant-numeric: tabular-nums; }
+
+  /* ヘッダー（ホーム画面と完全共通） */
+  .header {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .logo-mark { flex-shrink: 0; display: block; }
+  .logo-text-wrap { display: flex; flex-direction: column; line-height: 1.1; }
+  .logo-text {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--brand-dark);
+    letter-spacing: -0.005em;
+  }
+  .logo-sub {
+    font-size: 9px;
+    color: var(--text-mute);
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    margin-top: 1px;
+  }
+  @media (max-width: 480px) {
+    .logo-text { font-size: 14px; }
+    .logo-sub { display: none; }
+  }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .search-trigger {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-soft);
+    font-size: 13px;
+    cursor: pointer;
+    min-width: 240px;
+    transition: border-color 0.15s;
+  }
+  .search-trigger:hover { border-color: var(--brand-light); }
+  .search-trigger .kbd {
+    margin-left: auto;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 11px;
+    font-family: monospace;
+  }
+  .icon-btn {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-soft);
+    font-size: 18px;
+    position: relative;
+    transition: background 0.15s;
+  }
+  .icon-btn:hover { background: var(--bg); }
+  .badge-dot {
+    position: absolute;
+    top: 8px; right: 8px;
+    width: 8px; height: 8px;
+    background: #ef4444;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+  .avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--brand);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  /* レイアウト：サイドナビ + メイン */
+  .layout {
+    display: flex;
+    min-height: calc(100vh - 57px);
+  }
+
+  /* サイドナビ */
+  .sidenav {
+    width: 220px;
+    flex-shrink: 0;
+    background: #fff;
+    border-right: 1px solid var(--border);
+    padding: 20px 12px;
+    position: sticky;
+    top: 57px;
+    height: calc(100vh - 57px);
+    overflow-y: auto;
+  }
+  .nav-section {
+    margin-bottom: 18px;
+  }
+  .nav-section-label {
+    font-size: 10px;
+    color: var(--text-mute);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    padding: 0 10px 8px;
+    text-transform: uppercase;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    color: var(--text-soft);
+    font-size: 13px;
+    cursor: pointer;
+    margin-bottom: 2px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-item:hover { background: var(--bg); color: var(--text); }
+  .nav-item.active {
+    background: var(--bg-grad-1);
+    color: var(--brand);
+    font-weight: 600;
+  }
+  .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+  .nav-back {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    color: var(--text-mute);
+    font-size: 12px;
+    cursor: pointer;
+    margin-bottom: 12px;
+    border-radius: 6px;
+  }
+  .nav-back:hover { background: var(--bg); color: var(--text-soft); }
+
+  /* メイン */
+  .main {
+    flex: 1;
+    min-width: 0;
+    padding: 28px 32px 80px;
+    max-width: 1280px;
+  }
+
+  /* パンくず */
+  .breadcrumb {
+    font-size: 12px;
+    color: var(--text-mute);
+    margin-bottom: 12px;
+  }
+  .breadcrumb a { color: var(--text-soft); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--brand); }
+  .breadcrumb-sep { margin: 0 6px; color: var(--text-mute); }
+
+  /* ページタイトル + アクションバー */
+  .page-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .page-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .page-title-icon {
+    font-size: 26px;
+  }
+  .page-actions { display: flex; gap: 8px; align-items: center; }
+
+  /* ボタン */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    font-family: inherit;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: var(--brand);
+    color: #fff;
+    box-shadow: 0 1px 2px rgba(31,111,181,0.2);
+  }
+  .btn-primary:hover {
+    background: var(--brand-dark);
+    box-shadow: 0 2px 6px rgba(31,111,181,0.3);
+    transform: translateY(-1px);
+  }
+  .btn-secondary {
+    background: #fff;
+    color: var(--text);
+    border-color: var(--border);
+  }
+  .btn-secondary:hover { background: var(--bg); border-color: var(--brand-light); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-soft);
+  }
+  .btn-ghost:hover { background: var(--bg); color: var(--text); }
+  .btn-danger-soft {
+    background: var(--danger-bg);
+    color: var(--danger-text);
+  }
+  .btn-danger-soft:hover { background: #fecaca; }
+
+  /* KPIバー（請求書専用：4カード横並び） */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  .kpi-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    cursor: pointer;
+    transition: all 0.18s;
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--brand-light);
+  }
+  .kpi-card.kpi-danger:hover { border-color: var(--danger); box-shadow: 0 4px 12px rgba(239,68,68,0.15); }
+  .kpi-card.active {
+    border-color: var(--brand);
+    background: var(--bg-grad-1);
+    box-shadow: 0 0 0 2px rgba(31,111,181,0.15);
+  }
+  .kpi-card-label {
+    font-size: 11px;
+    color: var(--text-soft);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .kpi-card-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+  }
+  .kpi-card-value.danger { color: var(--danger); }
+  .kpi-card-sub {
+    font-size: 11px;
+    color: var(--text-mute);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .kpi-card-stripe {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 3px;
+  }
+  .stripe-blue { background: var(--info); }
+  .stripe-yellow { background: var(--warning); }
+  .stripe-red { background: var(--danger); }
+  .stripe-green { background: var(--success); }
+
+  /* フィルタバー */
+  .filter-bar {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .filter-search {
+    flex: 1;
+    min-width: 220px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 12px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .filter-search:focus-within {
+    border-color: var(--brand-light);
+    background: #fff;
+  }
+  .filter-search input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 13px;
+    color: var(--text);
+    font-family: inherit;
+  }
+  .filter-search input::placeholder { color: var(--text-mute); }
+  .filter-search-icon { color: var(--text-mute); font-size: 14px; }
+
+  .chip-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    padding: 6px 12px;
+    border-radius: 16px;
+    background: #fff;
+    border: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-soft);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.15s;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .chip:hover {
+    border-color: var(--brand-light);
+    color: var(--text);
+  }
+  .chip.active {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: #fff;
+  }
+  .chip-count {
+    font-size: 11px;
+    opacity: 0.7;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .period-select {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-size: 13px;
+    color: var(--text);
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .period-select:hover { border-color: var(--brand-light); }
+  .period-select .caret { color: var(--text-mute); font-size: 10px; }
+
+  /* テーブルカード */
+  .table-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .table-meta {
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border-soft);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-soft);
+  }
+  .table-meta-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .filter-active-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--danger-bg);
+    color: var(--danger-text);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .filter-active-tag .clear {
+    cursor: pointer;
+    opacity: 0.7;
+  }
+  .filter-active-tag .clear:hover { opacity: 1; }
+
+  .invoice-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+  }
+  .invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .invoice-table thead th {
+    background: #fafafa;
+    color: var(--text-soft);
+    font-weight: 600;
+    text-align: left;
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .invoice-table thead th.num { text-align: right; }
+  .invoice-table tbody tr {
+    border-bottom: 1px solid var(--border-soft);
+    transition: background 0.12s;
+    position: relative;
+  }
+  .invoice-table tbody tr:last-child { border-bottom: none; }
+  .invoice-table tbody tr:hover { background: var(--bg); }
+  .invoice-table tbody tr.row-overdue {
+    background: rgba(214,69,69,0.04);
+  }
+  .invoice-table tbody tr.row-overdue:hover {
+    background: rgba(214,69,69,0.08);
+  }
+  .invoice-table td {
+    padding: 13px 14px;
+    color: var(--text);
+    vertical-align: middle;
+  }
+  .invoice-table td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+  .invoice-table td.num.amount {
+    font-size: 14px;
+  }
+  .invoice-number {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12px;
+    color: var(--text-soft);
+    font-weight: 600;
+  }
+  .customer-name {
+    font-weight: 600;
+    color: var(--text);
+  }
+  .subject {
+    color: var(--text-soft);
+    font-size: 12px;
+  }
+  .date {
+    color: var(--text-soft);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    font-size: 12px;
+  }
+  .date.overdue-date {
+    color: var(--danger);
+    font-weight: 600;
+  }
+  .date-warn {
+    color: var(--warning);
+    font-weight: 600;
+  }
+
+  /* ステータスバッジ */
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 9px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+  }
+  .status-sent {
+    background: var(--info-bg);
+    color: var(--info-text);
+  }
+  .status-pending {
+    background: var(--warning-bg);
+    color: var(--warning-text);
+  }
+  .status-overdue {
+    background: var(--danger-bg);
+    color: var(--danger-text);
+  }
+  .status-paid {
+    background: var(--success-bg);
+    color: var(--success-text);
+  }
+  .status-draft {
+    background: var(--border-soft);
+    color: var(--text-soft);
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .status-sent .status-dot { background: var(--info); }
+  .status-pending .status-dot { background: var(--warning); }
+  .status-overdue .status-dot { background: var(--danger); }
+  .status-paid .status-dot { background: var(--success); }
+  .status-draft .status-dot { background: var(--text-mute); }
+
+  /* 操作カラム */
+  .row-actions {
+    display: flex;
+    gap: 4px;
+    justify-content: flex-end;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .invoice-table tbody tr:hover .row-actions { opacity: 1; }
+  .invoice-table tbody tr.row-overdue .row-actions { opacity: 1; }
+  .action-btn {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: var(--text-soft);
+    transition: all 0.12s;
+  }
+  .action-btn:hover {
+    background: var(--bg-grad-1);
+    color: var(--brand);
+  }
+  .reminder-btn {
+    opacity: 1 !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 14px;
+    background: var(--danger);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: inherit;
+    transition: all 0.15s;
+    box-shadow: 0 1px 3px rgba(214,69,69,0.3);
+    margin-right: 6px;
+    white-space: nowrap;
+  }
+  .reminder-btn:hover {
+    background: #B83A3A;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(214,69,69,0.4);
+  }
+
+  /* 空状態 */
+  .empty-state {
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--text-soft);
+    display: none;
+  }
+  .empty-state.show { display: block; }
+  .empty-state-icon {
+    font-size: 40px;
+    margin-bottom: 12px;
+    opacity: 0.5;
+  }
+
+  /* テーブルフッター */
+  .table-footer {
+    padding: 12px 18px;
+    border-top: 1px solid var(--border-soft);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-soft);
+    background: #fafafa;
+  }
+  .pagination {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .page-btn {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    color: var(--text-soft);
+    font-size: 12px;
+    font-family: inherit;
+    transition: all 0.12s;
+  }
+  .page-btn:hover { border-color: var(--brand-light); color: var(--text); }
+  .page-btn.active { background: var(--brand); color: #fff; border-color: var(--brand); font-weight: 600; }
+
+  /* モバイル用カード（768px以下で表示） */
+  .invoice-cards {
+    display: none;
+    flex-direction: column;
+    gap: 0;
+  }
+  .invoice-mobile-card {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border-soft);
+    cursor: pointer;
+    position: relative;
+  }
+  .invoice-mobile-card:last-child { border-bottom: none; }
+  .invoice-mobile-card.row-overdue {
+    background: rgba(214,69,69,0.04);
+  }
+  .mc-row1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 6px;
+    gap: 8px;
+  }
+  .mc-customer {
+    font-weight: 600;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.3;
+  }
+  .mc-subject {
+    color: var(--text-soft);
+    font-size: 12px;
+    margin-top: 2px;
+  }
+  .mc-amount {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .mc-row2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--text-mute);
+    gap: 8px;
+  }
+  .mc-meta {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .mc-meta-item .label { color: var(--text-mute); margin-right: 3px; }
+  .mc-meta-item .value { color: var(--text-soft); font-variant-numeric: tabular-nums; }
+  .mc-actions-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  /* AI起動FAB */
+  .ai-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 90;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    padding: 10px 18px 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    box-shadow: 0 6px 24px rgba(31,111,181,0.18), 0 2px 6px rgba(0,0,0,0.05);
+    transition: all 0.18s;
+    max-width: 360px;
+  }
+  .ai-fab:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 32px rgba(31,111,181,0.25), 0 4px 10px rgba(0,0,0,0.08);
+    border-color: var(--brand-light);
+  }
+  .ai-fab-icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--brand);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .ai-fab-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+  .ai-fab-label {
+    font-size: 10px;
+    color: var(--brand-dark);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .ai-fab-prompt {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 280px;
+  }
+
+  /* モーダル（リマインダー送信モック用） */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15,23,42,0.4);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px;
+    max-width: 440px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    animation: modalIn 0.2s ease-out;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .modal h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  .modal-icon {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    background: var(--bg-grad-1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 16px;
+  }
+  .modal-desc {
+    color: var(--text-soft);
+    font-size: 13px;
+    margin-bottom: 16px;
+    text-align: center;
+    line-height: 1.6;
+  }
+  .modal-preview {
+    background: var(--bg);
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    font-size: 12px;
+    color: var(--text-soft);
+    border-left: 3px solid var(--brand);
+    line-height: 1.6;
+  }
+  .modal-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .modal-actions .btn { flex: 1; padding: 10px 16px; justify-content: center; }
+
+  /* レスポンシブ */
+  @media (max-width: 1024px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .header { padding: 12px 16px; }
+    .search-trigger { display: none; }
+    .sidenav {
+      display: none;
+    }
+    .main { padding: 20px 16px 100px; }
+    .page-title { font-size: 20px; }
+    .page-head { gap: 12px; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .kpi-card { padding: 12px 14px; }
+    .kpi-card-value { font-size: 18px; }
+    .filter-bar { padding: 12px; gap: 8px; }
+    .chip-group { width: 100%; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
+    .chip { flex-shrink: 0; }
+    .period-select { width: 100%; justify-content: space-between; }
+
+    /* テーブル → カード切替 */
+    .invoice-table-wrap { display: none; }
+    .invoice-cards { display: flex; }
+
+    .ai-fab {
+      bottom: 16px;
+      right: 16px;
+      left: 16px;
+      max-width: none;
+      justify-content: flex-start;
+    }
+    .ai-fab-prompt { max-width: 200px; }
+  }
+  @media (max-width: 480px) {
+    .page-actions .btn { padding: 8px 12px; font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header class="header">
+  <div class="logo" onclick="alert('ホームへ戻る（モック）')">
+    <svg class="logo-mark" width="28" height="28" viewBox="0 0 36 36" aria-label="シンクロニシティシステムズ">
+      <defs>
+        <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#6366f1"/>
+          <stop offset="100%" stop-color="#ec4899"/>
+        </linearGradient>
+      </defs>
+      <line x1="18" y1="6" x2="6" y2="22" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.6"/>
+      <line x1="18" y1="6" x2="30" y2="22" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.6"/>
+      <line x1="6" y1="22" x2="18" y2="30" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.6"/>
+      <line x1="30" y1="22" x2="18" y2="30" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.6"/>
+      <line x1="6" y1="22" x2="30" y2="22" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.6"/>
+      <line x1="18" y1="6" x2="18" y2="30" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.4"/>
+      <circle cx="18" cy="6" r="3" fill="url(#logoGrad)"/>
+      <circle cx="6" cy="22" r="3" fill="url(#logoGrad)"/>
+      <circle cx="30" cy="22" r="3" fill="url(#logoGrad)"/>
+      <circle cx="18" cy="30" r="3" fill="url(#logoGrad)"/>
+    </svg>
+    <div class="logo-text-wrap">
+      <div class="logo-text">シンクロニシティシステムズ</div>
+      <div class="logo-sub">SYNCHRONICITY SYSTEMS</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="search-trigger" onclick="alert('⌘K グローバル検索（モック）')">
+      <span>🔍</span>
+      <span>取引先・タスクなど検索</span>
+      <span class="kbd">⌘K</span>
+    </div>
+    <button class="icon-btn" title="通知">🔔<span class="badge-dot"></span></button>
+    <div class="avatar" title="前野晃征">K</div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- 左サイドナビ -->
+  <aside class="sidenav">
+    <div class="nav-back" onclick="alert('ホームへ戻る（モック）')">
+      <span>←</span>
+      <span>ホームへ戻る</span>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">見積・請求書</div>
+      <div class="nav-item">
+        <span class="nav-icon">📊</span>
+        <span>ダッシュボード</span>
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">📝</span>
+        <span>見積書</span>
+      </div>
+      <div class="nav-item active">
+        <span class="nav-icon">📄</span>
+        <span>請求書</span>
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">📥</span>
+        <span>入金記録</span>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">関連アプリ</div>
+      <div class="nav-item">
+        <span class="nav-icon">💼</span>
+        <span>お客様・取引先</span>
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">✉️</span>
+        <span>メール送信</span>
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">🤖</span>
+        <span>AIアシスタント</span>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">設定</div>
+      <div class="nav-item">
+        <span class="nav-icon">⚙️</span>
+        <span>請求書テンプレート</span>
+      </div>
+      <div class="nav-item">
+        <span class="nav-icon">🏢</span>
+        <span>自社情報</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- メイン -->
+  <main class="main">
+
+    <!-- パンくず -->
+    <div class="breadcrumb">
+      <a href="#" onclick="return false;">ホーム</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="#" onclick="return false;">見積・請求書</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>請求書</span>
+    </div>
+
+    <!-- ページヘッダー -->
+    <div class="page-head">
+      <div class="page-title">
+        <span class="page-title-icon">📄</span>
+        <span>請求書</span>
+      </div>
+      <div class="page-actions">
+        <button class="btn btn-secondary" onclick="alert('CSVエクスポート（モック）')">
+          <span>📤</span>
+          <span>エクスポート</span>
+        </button>
+        <button class="btn btn-primary" onclick="alert('新規請求書作成画面へ（モック）')">
+          <span>＋</span>
+          <span>新しい請求書</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- KPIバー -->
+    <div class="kpi-grid">
+      <div class="kpi-card" onclick="filterByStatus('all')">
+        <div class="kpi-card-stripe stripe-blue"></div>
+        <div class="kpi-card-label">💰 今月の発行額</div>
+        <div class="kpi-card-value tabular">¥830,000</div>
+        <div class="kpi-card-sub">5件発行</div>
+      </div>
+      <div class="kpi-card" onclick="filterByStatus('pending')">
+        <div class="kpi-card-stripe stripe-yellow"></div>
+        <div class="kpi-card-label">⏳ 未回収</div>
+        <div class="kpi-card-value tabular">¥230,000</div>
+        <div class="kpi-card-sub">2件</div>
+      </div>
+      <div class="kpi-card kpi-danger" id="kpi-overdue" onclick="filterByStatus('overdue')">
+        <div class="kpi-card-stripe stripe-red"></div>
+        <div class="kpi-card-label">⚠️ 期限超過</div>
+        <div class="kpi-card-value tabular danger">¥80,000</div>
+        <div class="kpi-card-sub">1件 ・ クリックで絞り込み</div>
+      </div>
+      <div class="kpi-card" onclick="filterByStatus('paid')">
+        <div class="kpi-card-stripe stripe-green"></div>
+        <div class="kpi-card-label">✅ 今月の入金</div>
+        <div class="kpi-card-value tabular">¥600,000</div>
+        <div class="kpi-card-sub">3件</div>
+      </div>
+    </div>
+
+    <!-- フィルタバー -->
+    <div class="filter-bar">
+      <div class="filter-search">
+        <span class="filter-search-icon">🔍</span>
+        <input type="text" id="search-input" placeholder="請求番号・お客様名で検索" oninput="applyFilters()">
+      </div>
+
+      <div class="chip-group" id="status-chips">
+        <div class="chip active" data-status="all" onclick="filterByStatus('all')">すべて <span class="chip-count">8</span></div>
+        <div class="chip" data-status="draft" onclick="filterByStatus('draft')">下書き <span class="chip-count">0</span></div>
+        <div class="chip" data-status="sent" onclick="filterByStatus('sent')">送付済み <span class="chip-count">2</span></div>
+        <div class="chip" data-status="pending" onclick="filterByStatus('pending')">未回収 <span class="chip-count">1</span></div>
+        <div class="chip" data-status="overdue" onclick="filterByStatus('overdue')">期限超過 <span class="chip-count">1</span></div>
+        <div class="chip" data-status="paid" onclick="filterByStatus('paid')">入金済み <span class="chip-count">4</span></div>
+      </div>
+
+      <div class="period-select" onclick="alert('期間プルダウン（モック）')">
+        <span>📅</span>
+        <span>2026年5月</span>
+        <span class="caret">▾</span>
+      </div>
+    </div>
+
+    <!-- テーブルカード -->
+    <div class="table-card">
+      <div class="table-meta">
+        <div class="table-meta-left">
+          <span id="row-count">全 8 件を表示</span>
+          <span id="filter-active" style="display:none;"></span>
+        </div>
+        <div>並び替え：<strong style="color: var(--text);">発行日 新しい順 ▾</strong></div>
+      </div>
+
+      <!-- デスクトップ：テーブル -->
+      <div class="invoice-table-wrap">
+        <table class="invoice-table">
+          <thead>
+            <tr>
+              <th style="width: 130px;">請求番号</th>
+              <th>お客様 / 件名</th>
+              <th class="num" style="width: 120px;">金額</th>
+              <th style="width: 100px;">発行日</th>
+              <th style="width: 100px;">支払期日</th>
+              <th style="width: 120px;">ステータス</th>
+              <th style="width: 200px; text-align: right;">操作</th>
+            </tr>
+          </thead>
+          <tbody id="invoice-tbody">
+            <!-- JS生成 -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- モバイル：カード -->
+      <div class="invoice-cards" id="invoice-cards"></div>
+
+      <!-- 空状態 -->
+      <div class="empty-state" id="empty-state">
+        <div class="empty-state-icon">📭</div>
+        <div style="font-weight: 600; color: var(--text); margin-bottom: 4px;">該当する請求書がありません</div>
+        <div style="font-size: 12px;">条件を変えて再検索してください</div>
+      </div>
+
+      <!-- テーブルフッター -->
+      <div class="table-footer">
+        <div>1〜8 件目 / 全 8 件</div>
+        <div class="pagination">
+          <button class="page-btn">‹</button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">›</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- AI起動FAB -->
+<div class="ai-fab" onclick="alert('AIアシスタントを起動：「未回収の状況を教えて」（モック）')">
+  <div class="ai-fab-icon">🤖</div>
+  <div class="ai-fab-text">
+    <div class="ai-fab-label">AIに聞く</div>
+    <div class="ai-fab-prompt">「未回収の状況を教えて」</div>
+  </div>
+</div>
+
+<!-- リマインダー送信モーダル -->
+<div class="modal-overlay" id="reminderModal" onclick="if(event.target===this) closeModal()">
+  <div class="modal">
+    <div class="modal-icon">📞</div>
+    <h3 style="text-align: center;">リマインダーを送信</h3>
+    <div class="modal-desc">
+      <strong id="reminderTarget">株式会社グッドフード</strong> 宛に、<br>支払期日が過ぎた請求書のリマインダーメールを送ります。
+    </div>
+    <div class="modal-preview" id="reminderPreview">
+      件名: 【お支払いのお願い】請求書 I-2026-005 について<br><br>
+      いつもお世話になっております。株式会社idealです。<br>
+      請求書 I-2026-005（¥80,000）の支払期日（2026-05-15）を過ぎております。お振込のご確認をお願いいたします…
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">閉じる</button>
+      <button class="btn btn-primary" onclick="sendReminder()">送信する ✉️</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ========== ダミーデータ ==========
+  const INVOICES = [
+    { num: "I-2026-008", customer: "株式会社サンプル飲食", subject: "Webサイト制作", amount: 230000, issued: "2026-05-15", due: "2026-06-30", status: "sent" },
+    { num: "I-2026-007", customer: "デザイン事務所 ABC",   subject: "ロゴデザイン + 名刺", amount: 100000, issued: "2026-05-12", due: "2026-06-12", status: "sent" },
+    { num: "I-2026-006", customer: "田中コンサルティング", subject: "コンサル費 1月分", amount: 150000, issued: "2026-05-10", due: "2026-06-10", status: "paid" },
+    { num: "I-2026-005", customer: "株式会社グッドフード", subject: "メニュー撮影",     amount:  80000, issued: "2026-04-15", due: "2026-05-15", status: "overdue" },
+    { num: "I-2026-004", customer: "クリエイティブ工房",   subject: "動画編集 ×3本",   amount: 120000, issued: "2026-04-28", due: "2026-05-28", status: "pending" },
+    { num: "I-2026-003", customer: "山田写真館",           subject: "サイト改修",       amount:  85000, issued: "2026-04-20", due: "2026-05-20", status: "paid" },
+    { num: "I-2026-002", customer: "カフェ・ノワール",     subject: "名刺デザイン",     amount:  15000, issued: "2026-04-10", due: "2026-05-10", status: "paid" },
+    { num: "I-2026-001", customer: "株式会社サンプル飲食", subject: "保守費 2月分",     amount:  50000, issued: "2026-04-01", due: "2026-05-01", status: "paid" },
+  ];
+
+  const STATUS_META = {
+    sent:    { label: "送付済み",   icon: "🟢", cls: "status-sent" },
+    pending: { label: "未回収",     icon: "🟡", cls: "status-pending" },
+    overdue: { label: "期限超過",   icon: "⚠️", cls: "status-overdue" },
+    paid:    { label: "入金済み",   icon: "✅", cls: "status-paid" },
+    draft:   { label: "下書き",     icon: "⚪", cls: "status-draft" },
+  };
+
+  // ========== フォーマッタ ==========
+  const fmtYen = n => "¥" + n.toLocaleString("ja-JP");
+  const fmtDate = s => s.slice(5); // "MM-DD"
+
+  // ========== レンダリング ==========
+  let currentStatus = "all";
+  let currentSearch = "";
+
+  function renderTable() {
+    const tbody = document.getElementById("invoice-tbody");
+    const cards = document.getElementById("invoice-cards");
+    const empty = document.getElementById("empty-state");
+
+    const filtered = INVOICES.filter(inv => {
+      const matchStatus = currentStatus === "all" || inv.status === currentStatus;
+      const q = currentSearch.toLowerCase().trim();
+      const matchSearch = !q ||
+        inv.num.toLowerCase().includes(q) ||
+        inv.customer.toLowerCase().includes(q);
+      return matchStatus && matchSearch;
+    });
+
+    // テーブル
+    tbody.innerHTML = filtered.map(inv => {
+      const s = STATUS_META[inv.status];
+      const isOverdue = inv.status === "overdue";
+      const reminderBtn = isOverdue
+        ? `<button class="reminder-btn" onclick="event.stopPropagation(); openReminder('${inv.customer.replace(/'/g, "\\'")}', '${inv.num}', ${inv.amount}, '${inv.due}')"><span>📞</span><span>リマインダー</span></button>`
+        : "";
+      return `
+        <tr class="${isOverdue ? 'row-overdue' : ''}" onclick="alert('請求書 ${inv.num} の詳細を開く（モック）')">
+          <td><span class="invoice-number">${inv.num}</span></td>
+          <td>
+            <div class="customer-name">${inv.customer}</div>
+            <div class="subject">${inv.subject}</div>
+          </td>
+          <td class="num amount tabular">${fmtYen(inv.amount)}</td>
+          <td class="date tabular">${fmtDate(inv.issued)}</td>
+          <td class="date tabular ${isOverdue ? 'overdue-date' : ''}">${fmtDate(inv.due)}</td>
+          <td><span class="status ${s.cls}"><span class="status-dot"></span>${s.label}</span></td>
+          <td style="text-align: right;">
+            <div class="row-actions">
+              ${reminderBtn}
+              <button class="action-btn" title="表示" onclick="event.stopPropagation(); alert('表示（モック）')">👁</button>
+              <button class="action-btn" title="送信" onclick="event.stopPropagation(); alert('送信（モック）')">✉️</button>
+              <button class="action-btn" title="複製" onclick="event.stopPropagation(); alert('複製（モック）')">📋</button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join("");
+
+    // モバイルカード
+    cards.innerHTML = filtered.map(inv => {
+      const s = STATUS_META[inv.status];
+      const isOverdue = inv.status === "overdue";
+      const reminderBtn = isOverdue
+        ? `<button class="reminder-btn" onclick="event.stopPropagation(); openReminder('${inv.customer.replace(/'/g, "\\'")}', '${inv.num}', ${inv.amount}, '${inv.due}')"><span>📞</span><span>リマインダー送信</span></button>`
+        : "";
+      return `
+        <div class="invoice-mobile-card ${isOverdue ? 'row-overdue' : ''}" onclick="alert('請求書 ${inv.num} の詳細を開く（モック）')">
+          <div class="mc-row1">
+            <div>
+              <div class="mc-customer">${inv.customer}</div>
+              <div class="mc-subject">${inv.subject}</div>
+            </div>
+            <div class="mc-amount tabular">${fmtYen(inv.amount)}</div>
+          </div>
+          <div class="mc-row2">
+            <div class="mc-meta">
+              <span class="mc-meta-item"><span class="invoice-number">${inv.num}</span></span>
+              <span class="mc-meta-item"><span class="label">期日</span><span class="value ${isOverdue ? 'date overdue-date' : ''}">${fmtDate(inv.due)}</span></span>
+            </div>
+            <span class="status ${s.cls}"><span class="status-dot"></span>${s.label}</span>
+          </div>
+          ${isOverdue ? `<div class="mc-actions-row">${reminderBtn}</div>` : ''}
+        </div>
+      `;
+    }).join("");
+
+    // 件数表示と空状態
+    document.getElementById("row-count").textContent = `全 ${filtered.length} 件を表示`;
+    if (filtered.length === 0) {
+      empty.classList.add("show");
+    } else {
+      empty.classList.remove("show");
+    }
+
+    // 期限超過絞り込みの可視タグ
+    const tag = document.getElementById("filter-active");
+    if (currentStatus === "overdue") {
+      tag.style.display = "inline-flex";
+      tag.innerHTML = `<span class="filter-active-tag">⚠️ 期限超過のみ <span class="clear" onclick="event.stopPropagation(); filterByStatus('all')">×</span></span>`;
+    } else {
+      tag.style.display = "none";
+    }
+  }
+
+  // ========== フィルタ操作 ==========
+  function filterByStatus(status) {
+    currentStatus = status;
+
+    // chip 表示更新
+    document.querySelectorAll("#status-chips .chip").forEach(chip => {
+      chip.classList.toggle("active", chip.dataset.status === status);
+    });
+
+    // KPIカードのactive状態
+    document.querySelectorAll(".kpi-card").forEach(c => c.classList.remove("active"));
+    if (status === "overdue") {
+      document.getElementById("kpi-overdue").classList.add("active");
+    }
+
+    renderTable();
+  }
+
+  function applyFilters() {
+    currentSearch = document.getElementById("search-input").value;
+    renderTable();
+  }
+
+  // ========== リマインダーモーダル ==========
+  function openReminder(customer, num, amount, due) {
+    document.getElementById("reminderTarget").textContent = customer;
+    document.getElementById("reminderPreview").innerHTML =
+      `件名: 【お支払いのお願い】請求書 ${num} について<br><br>` +
+      `いつもお世話になっております。株式会社idealです。<br>` +
+      `請求書 ${num}（${fmtYen(amount)}）の支払期日（${due}）を過ぎております。お振込のご確認をお願いいたします…`;
+    document.getElementById("reminderModal").classList.add("show");
+  }
+  function closeModal() {
+    document.getElementById("reminderModal").classList.remove("show");
+  }
+  function sendReminder() {
+    alert("リマインダーメールを送信しました（モック）。\n送信履歴は「メール送信」アプリで確認できます。");
+    closeModal();
+  }
+
+  // ========== AI FAB テキスト回転 ==========
+  const aiPrompts = [
+    "「未回収の状況を教えて」",
+    "「今月の入金予定は？」",
+    "「期限超過の請求書ある？」",
+    "「先月の発行額と比較して」",
+  ];
+  let aiIdx = 0;
+  const aiPromptEl = document.querySelector(".ai-fab-prompt");
+  aiPromptEl.style.transition = "opacity 0.25s";
+  setInterval(() => {
+    aiIdx = (aiIdx + 1) % aiPrompts.length;
+    aiPromptEl.style.opacity = "0";
+    setTimeout(() => {
+      aiPromptEl.textContent = aiPrompts[aiIdx];
+      aiPromptEl.style.opacity = "1";
+    }, 220);
+  }, 3000);
+
+  // ========== ⌘K ==========
+  document.addEventListener("keydown", e => {
+    if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      e.preventDefault();
+      alert("⌘K グローバル検索（モック）");
+    }
+    if (e.key === "Escape") closeModal();
+  });
+
+  // 初回描画
+  renderTable();
+</script>
+
+</body>
+</html>

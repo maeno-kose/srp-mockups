@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>シンクロニシティ ロゴ案</title>
+<style>
+  body {
+    font-family: -apple-system, "Hiragino Kaku Gothic ProN", sans-serif;
+    background: #f7f8fc;
+    margin: 0;
+    padding: 40px 20px;
+    color: #1f2937;
+  }
+  .container { max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 24px; margin-bottom: 8px; }
+  .subtitle { color: #6b7280; margin-bottom: 32px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 24px;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .card h3 {
+    font-size: 15px;
+    color: #6366f1;
+    margin: 0 0 6px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .card .desc {
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+  .preview {
+    background: linear-gradient(135deg, #eef2ff, #fdf4ff);
+    border-radius: 12px;
+    padding: 36px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .preview-dark {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    border-radius: 12px;
+    padding: 36px 20px;
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .logo-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-symbol {
+    flex-shrink: 0;
+  }
+  .logo-text {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .logo-text.light { color: #fff; }
+  .logo-text.gradient {
+    background: linear-gradient(135deg, #6366f1, #ec4899);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .logo-tagline {
+    font-size: 10px;
+    color: #6b7280;
+    letter-spacing: 0.15em;
+    margin-top: -4px;
+  }
+  .logo-text.light + .logo-tagline { color: #94a3b8; }
+  .meta {
+    margin-top: 20px;
+    font-size: 11px;
+    color: #9ca3af;
+    line-height: 1.6;
+  }
+  .meta strong { color: #374151; }
+  .size-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-top: 8px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>✨ シンクロニシティシステムズ ロゴ案</h1>
+  <p class="subtitle">3案を比較。ライトテーマとダークテーマでの見え方も確認できます。</p>
+
+  <div class="grid">
+
+    <!-- 案A：シンクロ波（同心円） -->
+    <div class="card">
+      <h3>案A — シンクロ波</h3>
+      <div class="desc">同心円が広がる「共鳴」のメタファー。<br>音・電波・意識のシンクロを表現。</div>
+      <div class="preview">
+        <div class="logo-row">
+          <svg class="logo-symbol" width="36" height="36" viewBox="0 0 36 36">
+            <defs>
+              <linearGradient id="gA" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6366f1"/>
+                <stop offset="100%" stop-color="#ec4899"/>
+              </linearGradient>
+            </defs>
+            <circle cx="18" cy="18" r="3" fill="url(#gA)"/>
+            <circle cx="18" cy="18" r="8" fill="none" stroke="url(#gA)" stroke-width="1.8" opacity="0.7"/>
+            <circle cx="18" cy="18" r="14" fill="none" stroke="url(#gA)" stroke-width="1.4" opacity="0.4"/>
+            <circle cx="18" cy="18" r="17" fill="none" stroke="url(#gA)" stroke-width="1" opacity="0.2"/>
+          </svg>
+          <div>
+            <div class="logo-text gradient">シンクロニシティ</div>
+            <div class="logo-tagline">SYNCHRONICITY SYSTEMS</div>
+          </div>
+        </div>
+        <!-- 大きいサイズ -->
+        <div class="size-row" style="margin-top: 20px;">
+          <svg width="72" height="72" viewBox="0 0 36 36">
+            <defs>
+              <linearGradient id="gAbig" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6366f1"/>
+                <stop offset="100%" stop-color="#ec4899"/>
+              </linearGradient>
+            </defs>
+            <circle cx="18" cy="18" r="3" fill="url(#gAbig)"/>
+            <circle cx="18" cy="18" r="8" fill="none" stroke="url(#gAbig)" stroke-width="1.8" opacity="0.7"/>
+            <circle cx="18" cy="18" r="14" fill="none" stroke="url(#gAbig)" stroke-width="1.4" opacity="0.4"/>
+            <circle cx="18" cy="18" r="17" fill="none" stroke="url(#gAbig)" stroke-width="1" opacity="0.2"/>
+          </svg>
+        </div>
+      </div>
+      <div class="preview-dark">
+        <div class="logo-row">
+          <svg width="36" height="36" viewBox="0 0 36 36">
+            <defs>
+              <linearGradient id="gA2" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#a5b4fc"/>
+                <stop offset="100%" stop-color="#f9a8d4"/>
+              </linearGradient>
+            </defs>
+            <circle cx="18" cy="18" r="3" fill="url(#gA2)"/>
+            <circle cx="18" cy="18" r="8" fill="none" stroke="url(#gA2)" stroke-width="1.8" opacity="0.7"/>
+            <circle cx="18" cy="18" r="14" fill="none" stroke="url(#gA2)" stroke-width="1.4" opacity="0.4"/>
+            <circle cx="18" cy="18" r="17" fill="none" stroke="url(#gA2)" stroke-width="1" opacity="0.2"/>
+          </svg>
+          <div>
+            <div class="logo-text light">シンクロニシティ</div>
+            <div class="logo-tagline">SYNCHRONICITY SYSTEMS</div>
+          </div>
+        </div>
+      </div>
+      <div class="meta">
+        <strong>印象：</strong>知的・テクニカル・落ち着き<br>
+        <strong>競合参考：</strong>Linear、Vercel、Stripe風
+      </div>
+    </div>
+
+    <!-- 案B：連動する円 -->
+    <div class="card">
+      <h3>案B — 連動する円（インフィニティ）</h3>
+      <div class="desc">2つの円が無限に繋がる形。<br>「複数のアプリがシンクロし続ける」を直球で表現。</div>
+      <div class="preview">
+        <div class="logo-row">
+          <svg class="logo-symbol" width="42" height="36" viewBox="0 0 42 36">
+            <defs>
+              <linearGradient id="gB" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6366f1"/>
+                <stop offset="100%" stop-color="#ec4899"/>
+              </linearGradient>
+            </defs>
+            <circle cx="13" cy="18" r="9" fill="none" stroke="url(#gB)" stroke-width="2.8"/>
+            <circle cx="29" cy="18" r="9" fill="none" stroke="url(#gB)" stroke-width="2.8"/>
+            <circle cx="21" cy="18" r="1.8" fill="url(#gB)"/>
+          </svg>
+          <div>
+            <div class="logo-text gradient">シンクロニシティ</div>
+            <div class="logo-tagline">SYNCHRONICITY SYSTEMS</div>
+          </div>
+        </div>
+        <div class="size-row" style="margin-top: 20px;">
+          <svg width="84" height="72" viewBox="0 0 42 36">
+            <defs>
+              <linearGradient id="gBbig" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6366f1"/>
+                <stop offset="100%" stop-color="#ec4899"/>
+              </linearGradient>
+            </defs>
+            <circle cx="13" cy="18" r="9" fill="none" stroke="url(#gBbig)" stroke-width="2.8"/>
+            <circle cx="29" cy="18" r="9" fill="none" stroke="url(#gBbig)" stroke-width="2.8"/>
+            <circle cx="21" cy="18" r="1.8" fill="url(#gBbig)"/>
+          </svg>
+        </div>
+      </div>
+      <div class="preview-dark">
+        <div class="logo-row">
+          <svg width="42" height="36" viewBox="0 0 42 36">
+            <defs>
+              <linearGradient id="gB2" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#a5b4fc"/>
+                <stop offset="100%" stop-color="#f9a8d4"/>
+              </linearGradient>
+            </defs>
+            <circle cx="13" cy="18" r="9" fill="none" stroke="url(#gB2)" stroke-width="2.8"/>
+            <circle cx="29" cy="18" r="9" fill="none" stroke="url(#gB2)" stroke-width="2.8"/>
+            <circle cx="21" cy="18" r="1.8" fill="url(#gB2)"/>
+          </svg>
+          <div>
+            <div class="logo-text light">シンクロニシティ</div>
+            <div class="logo-tagline">SYNCHRONICITY SYSTEMS</div>
+          </div>
+        </div>
+      </div>
+      <div class="meta">
+        <strong>印象：</strong>親しみやすい・人と人の繋がり・コラボ<br>
+        <strong>競合参考：</strong>monday、HubSpot風
+      </div>
+    </div>
+
+    <!-- 案C：ネットワークノード -->
+    <div class="card">
+      <h3>案C — ネットワークノード</h3>
+      <div class="desc">複数の点が線で繋がる図。<br>「複数アプリ＝1つのシステム」のERP感を表現。</div>
+      <div class="preview">
+        <div class="logo-row">
+          <svg class="logo-symbol" width="36" height="36" viewBox="0 0 36 36">
+            <defs>
+              <linearGradient id="gC" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6366f1"/>
+                <stop offset="100%" stop-color="#ec4899"/>
+              </linearGradient>
+            </defs>
+            <!-- lines -->
+            <line x1="18" y1="6" x2="6" y2="22" stroke="url(#gC)" stroke-width="1.5" opacity="0.6"/>
+            <line x1="18" y1="6" x2="30" y2="22" stroke="url(#gC)" stroke-width="1.5" opacity="0.6"/>
+            <line x1="6" y1="22" x2="18" y2="30" stroke="url(#gC)" stroke-width="1.5" opacity="0.6"/>
+            <line x1="30" y1="22" x2="18" y2="30" stroke="url(#gC)" stroke-width="1.5" opacity="0.6"/>
+            <line x1="6" y1="22" x2="30" y2="22" stroke="url(#gC)" stroke-width="1.5" opacity="0.6"/>
+            <line x1="18" y1="6" x2="18" y2="30" stroke="url(#gC)" stroke-width="1.5" opacity="0.4"/>
+            <!-- nodes -->
+            <circle cx="18" cy="6" r="3" fill="url(#gC)"/>
+            <circle cx="6" cy="22" r="3" fill="url(#gC)"/>
+            <circle cx="30" cy="22" r="3" fill="url(#gC)"/>
+            <circle cx="18" cy="30" r="3" fill="url(#gC)"/>
+          </svg>
+          <div>
+            <div class="logo-text gradient">シンクロニシティ</div>
+            <div class="logo-tagline">SYNCHRONICITY SYSTEMS</div>
+          </div>
+        </div>
+        <div class="size-row" style="margin-top: 20px;">
+          <svg width="72" height="72" viewBox="0 0 36 36">
+            <defs>
+              <linearGradient id="gCbig" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6366f1"/>
+                <stop offset="100%" stop-color="#ec4899"/>
+              </linearGradient>
+            </defs>
+            <line x1="18" y1="6" x2="6" y2="22" stroke="url(#gCbig)" stroke-width="1.5" opacity="0.6"/>
+            <line x1="18" y1="6" x2="30" y2="22" stroke="url(#gCbig)" stroke-width="1.5" opacity="0.6"/>
+            <line x1="6" y1="22" x2="18" y2="30" stroke="url(#gCbig)" stroke-width="1.5" opacity="0.6"/>
+            <line x1="30" y1="22" x2="18" y2="30" stroke="url(#gCbig)" stroke-width="1.5" opacity="0.6"/>
+            <line x1="6" y1="22" x2="30" y2="22" stroke="url(#gCbig)" stroke-width="1.5" opacity="0.6"/>
+            <line x1="18" y1="6" x2="18" y2="30" stroke="url(#gCbig)" stroke-width="1.5" opacity="0.4"/>
+            <circle cx="18" cy="6" r="3" fill="url(#gCbig)"/>
+            <circle cx="6" cy="22" r="3" fill="url(#gCbig)"/>
+            <circle cx="30" cy="22" r="3" fill="url(#gCbig)"/>
+            <circle cx="18" cy="30" r="3" fill="url(#gCbig)"/>
+          </svg>
+        </div>
+      </div>
+      <div class="preview-dark">
+        <div class="logo-row">
+          <svg width="36" height="36" viewBox="0 0 36 36">
+            <defs>
+              <linearGradient id="gC2" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#a5b4fc"/>
+                <stop offset="100%" stop-color="#f9a8d4"/>
+              </linearGradient>
+            </defs>
+            <line x1="18" y1="6" x2="6" y2="22" stroke="url(#gC2)" stroke-width="1.5" opacity="0.7"/>
+            <line x1="18" y1="6" x2="30" y2="22" stroke="url(#gC2)" stroke-width="1.5" opacity="0.7"/>
+            <line x1="6" y1="22" x2="18" y2="30" stroke="url(#gC2)" stroke-width="1.5" opacity="0.7"/>
+            <line x1="30" y1="22" x2="18" y2="30" stroke="url(#gC2)" stroke-width="1.5" opacity="0.7"/>
+            <line x1="6" y1="22" x2="30" y2="22" stroke="url(#gC2)" stroke-width="1.5" opacity="0.7"/>
+            <line x1="18" y1="6" x2="18" y2="30" stroke="url(#gC2)" stroke-width="1.5" opacity="0.5"/>
+            <circle cx="18" cy="6" r="3" fill="url(#gC2)"/>
+            <circle cx="6" cy="22" r="3" fill="url(#gC2)"/>
+            <circle cx="30" cy="22" r="3" fill="url(#gC2)"/>
+            <circle cx="18" cy="30" r="3" fill="url(#gC2)"/>
+          </svg>
+          <div>
+            <div class="logo-text light">シンクロニシティ</div>
+            <div class="logo-tagline">SYNCHRONICITY SYSTEMS</div>
+          </div>
+        </div>
+      </div>
+      <div class="meta">
+        <strong>印象：</strong>技術力・統合・データ連携感<br>
+        <strong>競合参考：</strong>Notion、Airtable、Retool風
+      </div>
+    </div>
+
+  </div>
+
+  <div style="margin-top: 40px; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px;">
+    <h3 style="margin-top: 0;">💡 採用したい案を教えてください</h3>
+    <p style="color: #6b7280; margin: 0;">
+      A・B・C のうち、ピンと来た案を秘書に伝えてください。選択後、ホーム画面モックアップに組み込みます。<br>
+      「Bがいいけど、もう少し○○な感じにしたい」のような微調整リクエストもOKです。
+    </p>
+  </div>
+
+</div>
+</body>
+</html>

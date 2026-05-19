@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>株式会社サンプル飲食 - シンクロニシティシステムズ</title>
+<style>
+  :root {
+    --brand: #1F6FB5;
+    --brand-light: #4A90C8;
+    --brand-dark: #15507F;
+    --accent: #E8822E;
+    --bg: #F4F5F7;
+    --bg-grad-1: #E8F1F8;
+    --bg-grad-2: #F4F5F7;
+    --card: #ffffff;
+    --text: #1C2A36;
+    --text-soft: #5B6B78;
+    --text-mute: #9ca3af;
+    --border: #E2E5EA;
+    --border-soft: #f3f4f6;
+    --soon-bg: #f9fafb;
+    --soon-text: #9ca3af;
+    --success: #82B43A;
+    --warning: #f59e0b;
+    --danger: #D64545;
+    --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+    --shadow-hover: 0 4px 12px rgba(31,111,181,0.12), 0 2px 4px rgba(0,0,0,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
+                 "Hiragino Sans", "Yu Gothic UI", Meiryo, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ヘッダー（ホーム画面と同じ） */
+  .header {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .logo-mark { flex-shrink: 0; display: block; }
+  .logo-text-wrap {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+  .logo-text {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--brand-dark);
+    letter-spacing: -0.005em;
+  }
+  .logo-sub {
+    font-size: 9px;
+    color: var(--text-mute);
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    margin-top: 1px;
+  }
+  @media (max-width: 480px) {
+    .logo-text { font-size: 14px; }
+    .logo-sub { display: none; }
+  }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .search-trigger {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-soft);
+    font-size: 13px;
+    cursor: pointer;
+    min-width: 240px;
+    transition: border-color 0.15s;
+  }
+  .search-trigger:hover { border-color: var(--brand-light); }
+  .search-trigger .kbd {
+    margin-left: auto;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 11px;
+    font-family: monospace;
+  }
+  .icon-btn {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-soft);
+    font-size: 18px;
+    position: relative;
+    transition: background 0.15s;
+  }
+  .icon-btn:hover { background: var(--bg); }
+  .badge-dot {
+    position: absolute;
+    top: 8px; right: 8px;
+    width: 8px; height: 8px;
+    background: #ef4444;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+  .avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--brand);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  /* レイアウト（ナビ + メイン） */
+  .layout {
+    display: flex;
+    min-height: calc(100vh - 57px);
+  }
+
+  /* サイドナビ */
+  .sidenav {
+    width: 220px;
+    background: #fff;
+    border-right: 1px solid var(--border);
+    padding: 20px 12px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 57px;
+    height: calc(100vh - 57px);
+    overflow-y: auto;
+  }
+  .nav-section-label {
+    font-size: 10px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    padding: 10px 12px 6px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: var(--text-soft);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    margin-bottom: 2px;
+  }
+  .nav-item:hover { background: var(--bg); color: var(--text); }
+  .nav-item.active {
+    background: var(--bg-grad-1);
+    color: var(--brand);
+    font-weight: 600;
+  }
+  .nav-item .nav-icon {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+  }
+  .nav-item .nav-badge {
+    margin-left: auto;
+    background: var(--brand);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 10px;
+  }
+
+  /* モバイル：ナビ折りたたみ */
+  .menu-btn { display: none; }
+  @media (max-width: 768px) {
+    .sidenav {
+      position: fixed;
+      left: -240px;
+      top: 57px;
+      width: 220px;
+      transition: left 0.25s;
+      z-index: 90;
+      box-shadow: 4px 0 16px rgba(0,0,0,0.06);
+    }
+    .sidenav.open { left: 0; }
+    .menu-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--text-soft);
+    }
+  }
+
+  /* メイン */
+  .main {
+    flex: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px 32px 80px;
+    width: 100%;
+  }
+
+  /* パンくず */
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-soft);
+    margin-bottom: 16px;
+  }
+  .breadcrumb a { color: var(--text-soft); }
+  .breadcrumb a:hover { color: var(--brand); }
+  .breadcrumb .sep { color: var(--text-mute); }
+  .breadcrumb .current { color: var(--text); font-weight: 600; }
+
+  /* ヘッダーカード */
+  .account-header {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .account-header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--brand);
+  }
+  .ah-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .company-avatar {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    background: var(--bg-grad-1);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .ah-info { flex: 1; min-width: 0; }
+  .ah-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    background: var(--bg-grad-1);
+    color: var(--brand-dark);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+  .tag.pink {
+    background: #FEF0E6;
+    color: #B85B12;
+  }
+  .tag.gray {
+    background: var(--bg);
+    color: var(--text-soft);
+  }
+  .company-name {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 4px 0 8px;
+    letter-spacing: -0.01em;
+  }
+  .ah-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 13px;
+    color: var(--text-soft);
+    margin-top: 8px;
+  }
+  .ah-details .detail-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .ah-details a {
+    color: var(--brand);
+    font-weight: 500;
+  }
+  .ah-details a:hover { text-decoration: underline; }
+
+  .ah-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .btn {
+    padding: 9px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.15s;
+    background: #fff;
+    color: var(--text);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+  }
+  .btn:hover {
+    border-color: var(--brand-light);
+    background: var(--bg);
+  }
+  .btn-primary {
+    background: var(--brand);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 2px 8px rgba(31,111,181,0.25);
+  }
+  .btn-primary:hover {
+    background: var(--brand-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(31,111,181,0.3);
+  }
+  .btn-icon {
+    width: 36px;
+    padding: 0;
+    justify-content: center;
+    font-size: 16px;
+  }
+  .btn-ghost {
+    background: transparent;
+    border-color: transparent;
+    color: var(--text-soft);
+  }
+  .btn-ghost:hover { background: var(--bg); border-color: var(--border); }
+
+  /* クイックステータスカード */
+  .quick-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .stat-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .stat-card:hover {
+    border-color: var(--brand-light);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-1px);
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-soft);
+    font-weight: 500;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .stat-value {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .stat-sub {
+    font-size: 11px;
+    color: var(--text-mute);
+    margin-top: 2px;
+  }
+  .stat-value .accent {
+    color: var(--brand);
+  }
+  .stat-value small {
+    font-size: 12px;
+    color: var(--text-soft);
+    font-weight: 500;
+    margin-left: 4px;
+  }
+
+  /* セクション共通 */
+  .section {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+  }
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-count {
+    font-size: 12px;
+    color: var(--text-mute);
+    font-weight: 500;
+  }
+  .section-action {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--brand);
+    font-weight: 600;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 6px;
+    transition: background 0.15s;
+  }
+  .section-action:hover { background: var(--bg-grad-1); }
+
+  /* 担当者リスト */
+  .contact-list { display: flex; flex-direction: column; gap: 8px; }
+  .contact-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border-soft);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .contact-row:hover {
+    background: var(--bg);
+    border-color: var(--border);
+  }
+  .contact-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--brand);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .contact-avatar.gray {
+    background: #9ca3af;
+  }
+  .contact-info { flex: 1; min-width: 0; }
+  .contact-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .contact-name .badge-main {
+    background: var(--bg-grad-1);
+    color: var(--brand-dark);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 8px;
+  }
+  .contact-meta {
+    font-size: 12px;
+    color: var(--text-soft);
+    margin-top: 2px;
+  }
+  .contact-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  .add-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px;
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    color: var(--text-soft);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: all 0.15s;
+  }
+  .add-row:hover {
+    border-color: var(--brand-light);
+    color: var(--brand);
+    background: var(--bg-grad-1);
+  }
+
+  /* 商談カード */
+  .deal-list { display: flex; flex-direction: column; gap: 10px; }
+  .deal-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    cursor: pointer;
+    transition: all 0.18s;
+    background: #fff;
+    position: relative;
+  }
+  .deal-card:hover {
+    border-color: var(--brand-light);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-1px);
+  }
+  .deal-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .deal-title-wrap { flex: 1; min-width: 0; }
+  .deal-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .deal-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--text-soft);
+  }
+  .deal-meta-row .sep { color: var(--border); }
+  .deal-amount {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .stage-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 12px;
+  }
+  .stage-badge.proposal {
+    background: #fef3c7;
+    color: #92400e;
+  }
+  .stage-badge.quote {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+  .stage-badge.negotiation {
+    background: #FEF0E6;
+    color: #B85B12;
+  }
+  .stage-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .deal-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-soft);
+  }
+  .deal-link {
+    font-size: 12px;
+    color: var(--brand);
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .deal-link:hover { background: var(--bg-grad-1); }
+
+  /* タイムライン（活動履歴） */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 11px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: var(--border);
+    opacity: 0.8;
+  }
+  .timeline-item {
+    position: relative;
+    padding: 6px 0 18px;
+  }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-dot {
+    position: absolute;
+    left: -28px;
+    top: 8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid var(--brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    z-index: 1;
+  }
+  .timeline-date {
+    font-size: 11px;
+    color: var(--text-mute);
+    font-weight: 600;
+    margin-bottom: 2px;
+    letter-spacing: 0.02em;
+  }
+  .timeline-title {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  .timeline-title .activity-type {
+    font-weight: 700;
+    color: var(--brand-dark);
+    margin-right: 6px;
+  }
+
+  /* メモ */
+  .memo-area {
+    width: 100%;
+    min-height: 110px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--text);
+    resize: vertical;
+    background: #fafbfd;
+    transition: border-color 0.15s, background 0.15s;
+    line-height: 1.6;
+  }
+  .memo-area:focus {
+    outline: none;
+    border-color: var(--brand-light);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(31,111,181,0.08);
+  }
+  .memo-area::placeholder {
+    color: var(--text-mute);
+  }
+  .memo-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--text-mute);
+  }
+
+  /* AIフローティングボタン */
+  .ai-fab {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    background: var(--brand);
+    color: #fff;
+    border: none;
+    border-radius: 28px;
+    padding: 14px 22px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(31,111,181,0.30);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 80;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .ai-fab:hover {
+    background: var(--brand-dark);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 12px 32px rgba(31,111,181,0.40);
+  }
+  .ai-fab .fab-icon { font-size: 18px; }
+
+  /* レスポンシブ */
+  @media (max-width: 768px) {
+    .header { padding: 12px 16px; }
+    .search-trigger { display: none; }
+    .main { padding: 20px 16px 90px; }
+
+    .account-header { padding: 18px; }
+    .ah-top {
+      flex-direction: column;
+      gap: 14px;
+    }
+    .ah-actions {
+      width: 100%;
+      flex-wrap: wrap;
+    }
+    .ah-actions .btn-primary {
+      flex: 1;
+      justify-content: center;
+    }
+    .company-name { font-size: 20px; }
+
+    .quick-stats {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .section { padding: 18px; }
+
+    .deal-top { flex-wrap: wrap; }
+    .deal-amount {
+      text-align: left;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    .ai-fab {
+      right: 16px;
+      bottom: 16px;
+      padding: 12px 18px;
+      font-size: 13px;
+    }
+  }
+  @media (max-width: 480px) {
+    .deal-actions { flex-wrap: wrap; }
+    .ai-fab .fab-label { display: none; }
+    .ai-fab { padding: 14px; border-radius: 50%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header class="header">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <button class="menu-btn" onclick="toggleNav()" aria-label="メニュー">☰</button>
+    <div class="logo" onclick="location.href='srp-home-mockup.html'">
+      <svg class="logo-mark" width="28" height="28" viewBox="0 0 36 36" aria-label="シンクロニシティシステムズ">
+        <defs>
+          <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#6366f1"/>
+            <stop offset="100%" stop-color="#ec4899"/>
+          </linearGradient>
+        </defs>
+        <line x1="18" y1="6" x2="6" y2="22" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.6"/>
+        <line x1="18" y1="6" x2="30" y2="22" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.6"/>
+        <line x1="6" y1="22" x2="18" y2="30" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.6"/>
+        <line x1="30" y1="22" x2="18" y2="30" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.6"/>
+        <line x1="6" y1="22" x2="30" y2="22" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.6"/>
+        <line x1="18" y1="6" x2="18" y2="30" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.4"/>
+        <circle cx="18" cy="6" r="3" fill="url(#logoGrad)"/>
+        <circle cx="6" cy="22" r="3" fill="url(#logoGrad)"/>
+        <circle cx="30" cy="22" r="3" fill="url(#logoGrad)"/>
+        <circle cx="18" cy="30" r="3" fill="url(#logoGrad)"/>
+      </svg>
+      <div class="logo-text-wrap">
+        <div class="logo-text">シンクロニシティシステムズ</div>
+        <div class="logo-sub">SYNCHRONICITY SYSTEMS</div>
+      </div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="search-trigger" onclick="alert('⌘K グローバル検索（モック）')">
+      <span>🔍</span>
+      <span>取引先・タスクなど検索</span>
+      <span class="kbd">⌘K</span>
+    </div>
+    <button class="icon-btn" title="通知">🔔<span class="badge-dot"></span></button>
+    <div class="avatar" title="前野晃征">K</div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- サイドナビ -->
+  <aside class="sidenav" id="sidenav">
+    <div class="nav-section-label">メイン</div>
+    <div class="nav-item" onclick="location.href='srp-home-mockup.html'">
+      <span class="nav-icon">🏠</span><span>ホーム</span>
+    </div>
+    <div class="nav-item active">
+      <span class="nav-icon">💼</span><span>お客様</span>
+      <span class="nav-badge">12</span>
+    </div>
+    <div class="nav-item" onclick="alert('商談一覧（モック）')">
+      <span class="nav-icon">📊</span><span>商談</span>
+    </div>
+    <div class="nav-item" onclick="alert('活動履歴（モック）')">
+      <span class="nav-icon">📞</span><span>活動</span>
+    </div>
+    <div class="nav-item" onclick="alert('タスク（モック）')">
+      <span class="nav-icon">✅</span><span>タスク</span>
+    </div>
+
+    <div class="nav-section-label" style="margin-top:14px;">請求・経理</div>
+    <div class="nav-item" onclick="alert('見積・請求書（Phase 2予定）')">
+      <span class="nav-icon">📄</span><span>見積・請求</span>
+    </div>
+
+    <div class="nav-section-label" style="margin-top:14px;">その他</div>
+    <div class="nav-item" onclick="alert('AIアシスタント（モック）')">
+      <span class="nav-icon">🤖</span><span>AI</span>
+    </div>
+    <div class="nav-item" onclick="alert('設定（モック）')">
+      <span class="nav-icon">⚙️</span><span>設定</span>
+    </div>
+  </aside>
+
+  <!-- メイン -->
+  <main class="main">
+
+    <!-- パンくず -->
+    <div class="breadcrumb">
+      <a href="srp-home-mockup.html">🏠 ホーム</a>
+      <span class="sep">›</span>
+      <a href="#" onclick="return false;">お客様</a>
+      <span class="sep">›</span>
+      <span class="current">株式会社サンプル飲食</span>
+    </div>
+
+    <!-- ヘッダーカード -->
+    <div class="account-header">
+      <div class="ah-top">
+        <div class="company-avatar">🍴</div>
+        <div class="ah-info">
+          <div class="ah-meta-row">
+            <span class="tag">飲食業</span>
+            <span class="tag pink">常連客</span>
+            <span class="tag gray">月次フォロー</span>
+          </div>
+          <h1 class="company-name">株式会社サンプル飲食</h1>
+          <div class="ah-details">
+            <div class="detail-item">
+              <span>🌐</span>
+              <a href="https://example.com" target="_blank" rel="noopener" onclick="event.preventDefault();alert('example.com を開く（モック）')">example.com</a>
+            </div>
+            <div class="detail-item">
+              <span>📞</span>
+              <a href="tel:03-1234-5678">03-1234-5678</a>
+            </div>
+            <div class="detail-item">
+              <span>📅</span>
+              <span>最終接触：2026-05-12（5日前）</span>
+            </div>
+          </div>
+        </div>
+        <div class="ah-actions">
+          <button class="btn btn-icon btn-ghost" title="編集" onclick="alert('編集モード（モック）')">✏️</button>
+          <button class="btn btn-icon btn-ghost" title="その他" onclick="alert('メニュー：複製・アーカイブ・エクスポート（モック）')">⋯</button>
+          <button class="btn btn-primary" onclick="location.href='srp-quote-create-mockup.html'">
+            <span>📄</span>
+            <span>この会社に見積を作る</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- クイックステータスカード -->
+    <div class="quick-stats">
+      <div class="stat-card" onclick="alert('主担当者の詳細を開く（モック）')">
+        <div class="stat-label">👤 主担当者</div>
+        <div class="stat-value">田中 太郎</div>
+        <div class="stat-sub">代表取締役</div>
+      </div>
+      <div class="stat-card" onclick="alert('活動履歴へジャンプ（モック）')">
+        <div class="stat-label">📅 最終接触</div>
+        <div class="stat-value">2026-05-12</div>
+        <div class="stat-sub">5日前 ・ 電話</div>
+      </div>
+      <div class="stat-card" onclick="alert('進行中の商談一覧（モック）')">
+        <div class="stat-label">💼 進行中の商談</div>
+        <div class="stat-value">2<small>件</small> <span class="accent">¥230,000</span></div>
+        <div class="stat-sub">直近の期日：2026-06-15</div>
+      </div>
+    </div>
+
+    <!-- 担当者セクション -->
+    <section class="section">
+      <div class="section-head">
+        <div class="section-title"><span>👥</span><span>担当者</span></div>
+        <span class="section-count">2名</span>
+      </div>
+      <div class="contact-list">
+        <div class="contact-row" onclick="alert('田中 太郎の詳細を開く（モック）')">
+          <div class="contact-avatar">田</div>
+          <div class="contact-info">
+            <div class="contact-name">田中 太郎 <span class="badge-main">主担当</span></div>
+            <div class="contact-meta">代表取締役 ・ tanaka@sample.example.com</div>
+          </div>
+          <div class="contact-actions">
+            <button class="btn btn-icon btn-ghost" title="メール" onclick="event.stopPropagation();alert('メール作成（モック）')">✉️</button>
+            <button class="btn btn-icon btn-ghost" title="電話" onclick="event.stopPropagation();alert('電話発信（モック）')">📞</button>
+          </div>
+        </div>
+        <div class="contact-row" onclick="alert('鈴木 花子の詳細を開く（モック）')">
+          <div class="contact-avatar gray">鈴</div>
+          <div class="contact-info">
+            <div class="contact-name">鈴木 花子</div>
+            <div class="contact-meta">営業部 ・ suzuki@sample.example.com</div>
+          </div>
+          <div class="contact-actions">
+            <button class="btn btn-icon btn-ghost" title="メール" onclick="event.stopPropagation();alert('メール作成（モック）')">✉️</button>
+            <button class="btn btn-icon btn-ghost" title="電話" onclick="event.stopPropagation();alert('電話発信（モック）')">📞</button>
+          </div>
+        </div>
+        <div class="add-row" onclick="alert('担当者を追加（モック）')">
+          <span>＋</span><span>担当者を追加</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 商談セクション -->
+    <section class="section">
+      <div class="section-head">
+        <div class="section-title"><span>💼</span><span>商談</span></div>
+        <span class="section-count">進行中 2件 ・ 合計 ¥230,000</span>
+        <span class="section-action" onclick="alert('新規商談を作成（モック）')">＋ 新規商談</span>
+      </div>
+      <div class="deal-list">
+        <div class="deal-card" onclick="alert('商談詳細：2026年度 サイトリニューアル（モック）')">
+          <div class="deal-top">
+            <div class="deal-title-wrap">
+              <div class="deal-title">2026年度 サイトリニューアル</div>
+              <div class="deal-meta-row">
+                <span class="stage-badge proposal">提案中</span>
+                <span>期日：2026-06-30</span>
+                <span class="sep">|</span>
+                <span>担当：前野</span>
+              </div>
+            </div>
+            <div class="deal-amount">¥180,000</div>
+          </div>
+          <div class="deal-actions">
+            <span class="deal-link" onclick="event.stopPropagation();location.href='srp-quote-create-mockup.html'">📄 見積を作る</span>
+            <span class="deal-link" onclick="event.stopPropagation();alert('請求書に変換（Phase 2予定）')">💴 請求書に変換</span>
+          </div>
+        </div>
+
+        <div class="deal-card" onclick="alert('商談詳細：保守契約 6ヶ月（モック）')">
+          <div class="deal-top">
+            <div class="deal-title-wrap">
+              <div class="deal-title">保守契約 6ヶ月</div>
+              <div class="deal-meta-row">
+                <span class="stage-badge quote">見積提示</span>
+                <span>期日：2026-06-15</span>
+                <span class="sep">|</span>
+                <span>担当：前野</span>
+              </div>
+            </div>
+            <div class="deal-amount">¥50,000</div>
+          </div>
+          <div class="deal-actions">
+            <span class="deal-link" onclick="event.stopPropagation();location.href='srp-quote-create-mockup.html'">📄 見積を作る</span>
+            <span class="deal-link" onclick="event.stopPropagation();alert('請求書に変換（Phase 2予定）')">💴 請求書に変換</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 活動履歴セクション -->
+    <section class="section">
+      <div class="section-head">
+        <div class="section-title"><span>📞</span><span>活動履歴</span></div>
+        <span class="section-count">直近3件</span>
+        <span class="section-action" onclick="alert('活動を記録（モック）')">＋ 活動を記録</span>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot">📞</div>
+          <div class="timeline-date">2026-05-12 ・ 5日前</div>
+          <div class="timeline-title">
+            <span class="activity-type">電話</span>
+            リニューアル案の方向性確認（田中代表）。トップページの構成について再提案することで合意。
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot">✉️</div>
+          <div class="timeline-date">2026-05-08 ・ 9日前</div>
+          <div class="timeline-title">
+            <span class="activity-type">メール</span>
+            提案資料を送付。返信を待っている段階。
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot">🤝</div>
+          <div class="timeline-date">2026-04-28 ・ 20日前</div>
+          <div class="timeline-title">
+            <span class="activity-type">面談</span>
+            初回ヒアリング（オフィス訪問）。リニューアルの目的・スケジュール感をヒアリング。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- メモセクション -->
+    <section class="section">
+      <div class="section-head">
+        <div class="section-title"><span>📝</span><span>メモ</span></div>
+        <span class="section-count">自由記述</span>
+      </div>
+      <textarea class="memo-area" placeholder="お客様についてのメモを残せます。価格交渉のメモ、家族構成、好み、雑談ネタなど。"></textarea>
+      <div class="memo-foot">
+        <span>自動保存されます ・ 最終更新：2026-05-12 14:32</span>
+        <span class="deal-link" onclick="alert('AIに要約してもらう（モック）')">🤖 AIに要約してもらう</span>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- AIフローティングボタン -->
+<button class="ai-fab" onclick="alert('AIアシスタントを起動：このお客様について何でも聞けます（モック）')">
+  <span class="fab-icon">💬</span>
+  <span class="fab-label">AIに聞く</span>
+</button>
+
+<script>
+  // モバイル：サイドナビ開閉
+  function toggleNav() {
+    document.getElementById('sidenav').classList.toggle('open');
+  }
+  // ナビ外をタップで閉じる
+  document.addEventListener('click', (e) => {
+    const nav = document.getElementById('sidenav');
+    const btn = document.querySelector('.menu-btn');
+    if (window.innerWidth <= 768 && nav.classList.contains('open')
+        && !nav.contains(e.target) && !btn.contains(e.target)) {
+      nav.classList.remove('open');
+    }
+  });
+
+  // ⌘K
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      alert('⌘K グローバル検索（モック）');
+    }
+  });
+
+  // メモ自動保存ふう（実体はなし）
+  const memo = document.querySelector('.memo-area');
+  let memoTimer;
+  memo.addEventListener('input', () => {
+    clearTimeout(memoTimer);
+    memoTimer = setTimeout(() => {
+      console.log('メモを自動保存（モック）');
+    }, 1000);
+  });
+</script>
+
+</body>
+</html>
