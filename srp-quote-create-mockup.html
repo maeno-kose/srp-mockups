@@ -4,32 +4,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>見積書作成 - シンクロニシティシステムズ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --brand: #0A66C2;
-    --brand-light: #3D87D4;
-    --brand-dark: #084E95;
-    --brand-bg: #E7F0FA;
-    --accent: #B9791F;
-    --bg: #F5F6F8;
+    --brand: #2C5282;
+    --brand-light: #5B7FA8;
+    --brand-dark: #1F4E79;
+    --brand-bg: #E2E8F0;
+    --accent: #D97706;
+    --bg: #FAFAF9;
     --card: #ffffff;
-    --text: #1A2733;
-    --text-soft: #5C6B7A;
-    --text-mute: #9ca3af;
-    --border: #E1E4E8;
-    --border-soft: #F5F6F8;
-    --success: #2E7D4F;
-    --warning: #B9791F;
-    --shadow: 0 1px 3px rgba(16,24,40,0.08);
-    --shadow-hover: 0 4px 12px rgba(16,24,40,0.10), 0 2px 4px rgba(16,24,40,0.05);
-    --shadow-a4: 0 10px 40px rgba(15,23,42,0.10), 0 2px 8px rgba(15,23,42,0.05);
-    --num-font: "SF Mono", "Menlo", "Consolas", "Hiragino Sans", sans-serif;
+    --text: #1C1917;
+    --text-soft: #57534E;
+    --text-mute: #78716C;
+    --border: #E7E5E4;
+    --border-soft: #F5F5F4;
+    --success: #7BA428;
+    --warning: #D97706;
+    --danger: #B91C1C;
+    --error: #B91C1C;
+    --shadow: 0 1px 3px rgba(28,25,23,.08);
+    --shadow-hover: 0 4px 12px rgba(28,25,23,.10), 0 2px 4px rgba(28,25,23,.05);
+    --shadow-a4: 0 10px 40px rgba(28,25,23,.10), 0 2px 8px rgba(28,25,23,.05);
+    --focus-ring: 0 0 0 3px rgba(44,82,130,.22);
+    --num-font: "SF Mono", "Menlo", "Consolas", "Noto Sans JP", sans-serif;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
-    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
-                 "Hiragino Sans", "Yu Gothic UI", Meiryo, sans-serif;
+    font-family: "Inter Tight", "Noto Sans JP", sans-serif;
     background: var(--bg);
     color: var(--text);
     font-size: 14px;
@@ -230,8 +235,8 @@
     gap: 6px;
     padding: 4px 10px;
     border-radius: 999px;
-    background: #fef3c7;
-    color: #92400e;
+    background: #FEF7ED;
+    color: #92400E;
     font-size: 11px;
     font-weight: 600;
     margin-left: 8px;
@@ -239,7 +244,7 @@
   .draft-pill::before {
     content: "";
     width: 6px; height: 6px;
-    background: #B9791F;
+    background: #D97706;
     border-radius: 50%;
   }
 
@@ -255,7 +260,7 @@
   .form-panel {
     background: #fff;
     border: 1px solid var(--border);
-    border-radius: 14px;
+    border-radius: 8px;
     padding: 20px;
     box-shadow: var(--shadow);
     position: sticky;
@@ -307,7 +312,7 @@
   .input:focus, .select:focus, .textarea:focus {
     outline: none;
     border-color: var(--brand);
-    box-shadow: 0 0 0 3px rgba(10,102,194,0.12);
+    box-shadow: 0 0 0 3px rgba(44,82,130,.12);
   }
   .textarea { resize: vertical; min-height: 60px; line-height: 1.5; }
   .select {
@@ -337,7 +342,7 @@
     gap: 4px;
     padding: 2px 6px;
     border-radius: 4px;
-    background: rgba(10,102,194,0.08);
+    background: rgba(44,82,130,.08);
     color: var(--brand-dark);
     font-size: 10px;
     font-weight: 600;
@@ -430,8 +435,8 @@
     margin-top: 14px;
     padding: 12px 14px;
     background: var(--brand-bg);
-    border: 1px solid #C2D8EF;
-    border-radius: 10px;
+    border: 1px solid #C5D2E0;
+    border-radius: 8px;
     font-size: 12px;
   }
   .form-summary-row {
@@ -444,7 +449,7 @@
   .form-summary-row.total {
     margin-top: 6px;
     padding-top: 8px;
-    border-top: 1px solid rgba(10,102,194,0.18);
+    border-top: 1px solid rgba(44,82,130,.18);
     color: var(--brand-dark);
     font-weight: 700;
     font-size: 14px;
@@ -465,7 +470,7 @@
   }
   .btn {
     padding: 11px 16px;
-    border-radius: 10px;
+    border-radius: 6px;
     border: 1px solid var(--border);
     cursor: pointer;
     font-weight: 600;
@@ -488,7 +493,7 @@
   }
   .btn-primary:hover {
     background: var(--brand-dark);
-    box-shadow: 0 4px 14px rgba(10,102,194,0.22);
+    box-shadow: 0 4px 14px rgba(44,82,130,.22);
     transform: translateY(-1px);
   }
   .btn-secondary { background: #fff; color: var(--text); }
@@ -510,7 +515,7 @@
     padding: 8px 14px;
     background: #fff;
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: 8px;
   }
   .preview-toolbar-left {
     display: flex;
@@ -630,8 +635,8 @@
   /* 請求金額ボックス（強調） */
   .a4-total-box {
     background: var(--brand-bg);
-    border: 1px solid #C2D8EF;
-    border-radius: 10px;
+    border: 1px solid #C5D2E0;
+    border-radius: 8px;
     padding: 14px 20px;
     margin-bottom: 22px;
     display: flex;
@@ -735,7 +740,7 @@
     line-height: 1.6;
     padding: 10px 12px;
     background: var(--bg);
-    border-left: 3px solid var(--brand-light);
+    border-left: 3px solid #C5D2E0;
     border-radius: 4px;
     margin-bottom: 22px;
   }
@@ -807,7 +812,7 @@
     padding: 18px 22px;
     background: #fff;
     border: 1px dashed var(--border);
-    border-radius: 12px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     gap: 16px;
@@ -817,7 +822,7 @@
   .convert-cta:hover { opacity: 1; }
   .convert-cta .ico {
     width: 44px; height: 44px;
-    border-radius: 12px;
+    border-radius: 8px;
     background: var(--brand-bg);
     display: flex; align-items: center; justify-content: center;
     font-size: 22px;

@@ -4,32 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>シンクロニシティシステムズ - 新しく登録</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --brand: #0A66C2;
-    --brand-light: #3D87D4;
-    --brand-dark: #084E95;
-    --brand-bg: #E7F0FA;
-    --accent: #B9791F;
-    --bg: #F5F6F8;
+    --brand: #2C5282;
+    --brand-light: #5B7FA8;
+    --brand-dark: #1F4E79;
+    --brand-bg: #E2E8F0;
+    --accent: #D97706;
+    --bg: #FAFAF9;
     --card: #ffffff;
-    --text: #1A2733;
-    --text-soft: #5C6B7A;
-    --text-mute: #9ca3af;
-    --border: #E1E4E8;
-    --border-soft: #F5F6F8;
-    --success: #2E7D4F;
-    --warning: #B9791F;
-    --error: #C0392B;
-    --shadow: 0 1px 3px rgba(16,24,40,0.08);
-    --shadow-card: 0 2px 8px rgba(16,24,40,0.08), 0 1px 3px rgba(16,24,40,0.05);
-    --focus-ring: 0 0 0 3px rgba(10,102,194,0.22);
+    --text: #1C1917;
+    --text-soft: #57534E;
+    --text-mute: #78716C;
+    --border: #E7E5E4;
+    --border-soft: #F5F5F4;
+    --success: #7BA428;
+    --warning: #D97706;
+    --error: #B91C1C;
+    --shadow: 0 1px 3px rgba(28,25,23,.08);
+    --shadow-card: 0 2px 8px rgba(28,25,23,.08), 0 1px 3px rgba(28,25,23,.05);
+    --focus-ring: 0 0 0 3px rgba(44,82,130,.22);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
-    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
-                 "Hiragino Sans", "Yu Gothic UI", Meiryo, sans-serif;
+    font-family: "Inter Tight", "Noto Sans JP", sans-serif;
     background: var(--bg);
     color: var(--text);
     font-size: 14px;
@@ -61,9 +63,9 @@
     justify-content: center;
     width: 56px;
     height: 56px;
-    border-radius: 16px;
+    border-radius: 8px;
     background: #fff;
-    box-shadow: 0 2px 8px rgba(16,24,40,0.10);
+    box-shadow: 0 2px 8px rgba(28,25,23,.10);
   }
   .auth-brand-name {
     font-size: 18px;
@@ -88,7 +90,7 @@
     max-width: 440px;
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 16px;
+    border-radius: 8px;
     box-shadow: var(--shadow-card);
     padding: 32px 28px;
   }
@@ -118,7 +120,7 @@
     font-weight: 600;
     color: var(--brand-dark);
     background: var(--brand-bg);
-    border: 1px solid #C2D8EF;
+    border: 1px solid #C5D2E0;
     padding: 4px 10px;
     border-radius: 999px;
     letter-spacing: 0.02em;
@@ -144,7 +146,7 @@
     padding: 11px 14px;
     background: #fff;
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: 6px;
     font-size: 13px;
     font-weight: 600;
     color: var(--text);
@@ -191,7 +193,7 @@
     padding: 11px 14px;
     background: #fff;
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: 6px;
     font-size: 14px;
     color: var(--text);
     font-family: inherit;
@@ -282,7 +284,7 @@
     background: var(--brand);
     color: #fff;
     border: none;
-    border-radius: 10px;
+    border-radius: 6px;
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
@@ -297,7 +299,7 @@
   .btn-primary:hover:not(.is-loading):not(:disabled) {
     background: var(--brand-dark);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(10,102,194,0.25);
+    box-shadow: 0 4px 12px rgba(44,82,130,.25);
   }
   .btn-primary:disabled {
     opacity: 0.4;
@@ -369,7 +371,7 @@
   .ai-help:hover { color: var(--brand-dark); }
   .ai-help-icon {
     width: 22px; height: 22px;
-    border-radius: 8px;
+    border-radius: 6px;
     background: var(--brand);
     color: #fff;
     display: flex;

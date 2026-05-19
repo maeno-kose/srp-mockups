@@ -4,32 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>シンクロニシティシステムズ - ホーム</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --brand: #0A66C2;
-    --brand-light: #3D87D4;
-    --brand-dark: #084E95;
-    --brand-bg: #E7F0FA;
-    --accent: #B9791F;
-    --bg: #F5F6F8;
+    --brand: #2C5282;
+    --brand-light: #5B7FA8;
+    --brand-dark: #1F4E79;
+    --brand-bg: #E2E8F0;
+    --accent: #D97706;
+    --bg: #FAFAF9;
     --card: #ffffff;
-    --text: #1A2733;
-    --text-soft: #5C6B7A;
-    --text-mute: #9ca3af;
-    --border: #E1E4E8;
-    --border-soft: #F5F6F8;
-    --soon-bg: #f9fafb;
-    --soon-text: #9ca3af;
-    --success: #2E7D4F;
-    --warning: #B9791F;
-    --shadow: 0 1px 3px rgba(16,24,40,0.08);
-    --shadow-hover: 0 4px 12px rgba(16,24,40,0.10), 0 2px 4px rgba(16,24,40,0.05);
+    --text: #1C1917;
+    --text-soft: #57534E;
+    --text-mute: #78716C;
+    --border: #E7E5E4;
+    --border-soft: #F5F5F4;
+    --soon-bg: #F5F5F4;
+    --soon-text: #78716C;
+    --success: #7BA428;
+    --warning: #D97706;
+    --shadow: 0 1px 3px rgba(28,25,23,.08);
+    --shadow-hover: 0 4px 12px rgba(28,25,23,.10), 0 2px 4px rgba(28,25,23,.05);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
-    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
-                 "Hiragino Sans", "Yu Gothic UI", Meiryo, sans-serif;
+    font-family: "Inter Tight", "Noto Sans JP", sans-serif;
     background: var(--bg);
     color: var(--text);
     font-size: 14px;
@@ -163,8 +165,8 @@
   /* AIアシスタント常駐バー */
   .ai-bar {
     background: var(--brand-bg);
-    border: 1px solid #C2D8EF;
-    border-radius: 14px;
+    border: 1px solid #C5D2E0;
+    border-radius: 8px;
     padding: 18px 22px;
     margin-bottom: 20px;
     display: flex;
@@ -182,7 +184,7 @@
   }
   .ai-bar-icon {
     width: 44px; height: 44px;
-    border-radius: 12px;
+    border-radius: 8px;
     background: var(--brand);
     display: flex; align-items: center; justify-content: center;
     font-size: 22px;
@@ -209,7 +211,7 @@
     background: var(--brand-dark);
     color: #fff;
     padding: 8px 16px;
-    border-radius: 8px;
+    border-radius: 6px;
     font-size: 13px;
     font-weight: 600;
     flex-shrink: 0;
@@ -219,7 +221,7 @@
   .kpi-bar {
     background: #fff;
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 16px 20px;
     margin-bottom: 32px;
     display: grid;
@@ -297,7 +299,7 @@
   .app-card {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 16px;
     cursor: pointer;
     transition: all 0.18s;
@@ -311,7 +313,7 @@
   }
   .app-card-icon {
     width: 38px; height: 38px;
-    border-radius: 10px;
+    border-radius: 6px;
     background: var(--brand-bg);
     border: 1px solid var(--border);
     display: flex; align-items: center; justify-content: center;
@@ -373,8 +375,8 @@
     border: 1px solid var(--border);
     letter-spacing: 0.03em;
   }
-  .soon-badge.phase-2 { color: #B9791F; border-color: #E8C97A; }
-  .soon-badge.phase-3 { color: #084E95; border-color: #C2D8EF; }
+  .soon-badge.phase-2 { color: #B45309; border-color: #F5B871; }
+  .soon-badge.phase-3 { color: #1F4E79; border-color: #C5D2E0; }
   .soon-badge.future { color: #9ca3af; }
 
   /* MVPバッジ */
@@ -386,15 +388,15 @@
     font-size: 10px;
     font-weight: 700;
     padding: 2px 7px;
-    border-radius: 10px;
+    border-radius: 999px;
     letter-spacing: 0.05em;
   }
 
   /* カテゴリ別アクセント色 */
-  .app-grid.sales .app-card:not(.soon) .app-card-icon { background: var(--brand-bg); border-color: #C2D8EF; }
-  .app-grid.info .app-card:not(.soon) .app-card-icon { background: var(--brand-bg); border-color: #C2D8EF; }
-  .app-grid.ai .app-card:not(.soon) .app-card-icon { background: var(--brand-bg); border-color: #C2D8EF; }
-  .app-grid.system .app-card:not(.soon) .app-card-icon { background: #f3f4f6; border-color: #E1E4E8; }
+  .app-grid.sales .app-card:not(.soon) .app-card-icon { background: var(--brand-bg); border-color: #C5D2E0; }
+  .app-grid.info .app-card:not(.soon) .app-card-icon { background: var(--brand-bg); border-color: #C5D2E0; }
+  .app-grid.ai .app-card:not(.soon) .app-card-icon { background: var(--brand-bg); border-color: #C5D2E0; }
+  .app-grid.system .app-card:not(.soon) .app-card-icon { background: #F5F5F4; border-color: #E7E5E4; }
 
   /* 拡張パックセクション */
   .extension-section {
@@ -403,9 +405,9 @@
     border-top: 1px dashed var(--border);
   }
   .extension-intro {
-    background: #FEF6E4;
-    border: 1px solid #E8C97A;
-    border-radius: 10px;
+    background: #FEF7ED;
+    border: 1px solid #F5B871;
+    border-radius: 8px;
     padding: 12px 16px;
     margin-bottom: 16px;
     font-size: 12px;
@@ -442,7 +444,7 @@
   .modal-overlay.show { display: flex; }
   .modal {
     background: #fff;
-    border-radius: 16px;
+    border-radius: 8px;
     padding: 28px;
     max-width: 420px;
     width: 90%;
@@ -459,7 +461,7 @@
   }
   .modal-icon {
     width: 56px; height: 56px;
-    border-radius: 14px;
+    border-radius: 8px;
     background: var(--brand-bg);
     display: flex; align-items: center; justify-content: center;
     font-size: 28px;

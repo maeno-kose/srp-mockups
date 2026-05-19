@@ -7,21 +7,21 @@
 <title>シンクロニシティシステムズ — モック確認用（社内）</title>
 <style>
   :root {
-    --primary: #0A66C2;
-    --primary-dark: #084E95;
-    --primary-soft: #E7F0FA;
-    --amber: #B9791F;
-    --ink: #1A2733;
-    --sub: #5C6B7A;
-    --border: #E1E4E8;
-    --bg: #F5F6F8;
+    --primary: #2C5282;
+    --primary-dark: #1F4E79;
+    --primary-soft: #E2E8F0;
+    --accent: #D97706;
+    --ink: #1C1917;
+    --sub: #57534E;
+    --border: #E7E5E4;
+    --bg: #FAFAF9;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  body { font-family: "Inter Tight", "Noto Sans JP", -apple-system, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
          background: var(--bg); color: var(--ink); line-height: 1.7; }
   header { background: var(--primary-dark); color: #fff; padding: 32px 24px; }
   header h1 { font-size: 20px; }
-  header p { color: #c8d8ea; font-size: 13px; margin-top: 6px; }
+  header p { color: #cdd6e2; font-size: 13px; margin-top: 6px; }
   .wrap { max-width: 880px; margin: 0 auto; padding: 28px 24px 64px; }
   .note { background: var(--primary-soft); border-left: 4px solid var(--primary);
           padding: 14px 16px; border-radius: 6px; font-size: 13px; color: var(--ink); margin-bottom: 24px; }
@@ -29,7 +29,7 @@
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
   a.card { display: block; background: #fff; border: 1px solid var(--border); border-radius: 8px;
            padding: 16px; text-decoration: none; color: var(--ink); transition: .12s; }
-  a.card:hover { border-color: var(--primary); box-shadow: 0 1px 6px rgba(16,24,40,.1); }
+  a.card:hover { border-color: var(--primary); box-shadow: 0 1px 3px rgba(28,25,23,.1); }
   a.card .t { font-weight: 600; font-size: 14px; }
   a.card .d { font-size: 12px; color: var(--sub); margin-top: 4px; }
   footer { color: var(--sub); font-size: 12px; margin-top: 36px; border-top: 1px solid var(--border); padding-top: 16px; }
@@ -42,21 +42,22 @@
 <body>
 <header>
   <h1>シンクロニシティシステムズ — 画面モック（社内確認用）</h1>
-  <p>SRP / Startup Resource Planning ・ 株式会社Subliminal ・ 配色刷新 案1「エンタープライズブルー」(2026-05-19)</p>
+  <p>SRP / Startup Resource Planning ・ 株式会社Subliminal ・ 正式カラーシステム v1.0 適用 (2026-05-19)</p>
 </header>
 <div class="wrap">
   <div class="note">
-    「AIでよくある色味」のフィードバックを受け、配色を <b>SAP Fiori / Microsoft Dynamics 型のエンタープライズブルー</b> に刷新しました。<br>
-    indigo+pink+グラデ多用 → <b>真の青（色相210°）を主役1色</b>＋低彩度の琥珀アクセント。グラデーションは全廃。<b>ロゴは現状維持</b>です。
+    確定した<b>正式カラーシステム v1.0（厳守仕様）</b>を全9画面に適用しました。<br>
+    プライマリ＝Steel Blue <b>#2C5282</b>（彩度を落とした実務的なブルー）／アクセント＝Amber #D97706 ／成功＝Olive #7BA428 ／ニュートラル＝Stone系（暖色寄りグレー）。グラデ・グロー・過大な角丸を排除。<b>ロゴは現状維持</b>。
   </div>
 
-  <h2>新カラーパレット（案1）</h2>
+  <h2>正式カラーパレット v1.0</h2>
   <div class="palette">
-    <div class="sw"><div class="chip" style="background:#0A66C2"></div><div class="lbl">青 主役</div></div>
-    <div class="sw"><div class="chip" style="background:#084E95"></div><div class="lbl">濃青</div></div>
-    <div class="sw"><div class="chip" style="background:#B9791F"></div><div class="lbl">琥珀</div></div>
-    <div class="sw"><div class="chip" style="background:#1A2733"></div><div class="lbl">文字</div></div>
-    <div class="sw"><div class="chip" style="background:#F5F6F8"></div><div class="lbl">背景</div></div>
+    <div class="sw"><div class="chip" style="background:#2C5282"></div><div class="lbl">青 主役</div></div>
+    <div class="sw"><div class="chip" style="background:#1F4E79"></div><div class="lbl">濃青</div></div>
+    <div class="sw"><div class="chip" style="background:#D97706"></div><div class="lbl">琥珀</div></div>
+    <div class="sw"><div class="chip" style="background:#7BA428"></div><div class="lbl">黄緑</div></div>
+    <div class="sw"><div class="chip" style="background:#1C1917"></div><div class="lbl">文字</div></div>
+    <div class="sw"><div class="chip" style="background:#FAFAF9"></div><div class="lbl">背景</div></div>
   </div>
 
   <h2>主要画面</h2>
