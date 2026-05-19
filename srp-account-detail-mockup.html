@@ -6,26 +6,23 @@
 <title>株式会社サンプル飲食 - シンクロニシティシステムズ</title>
 <style>
   :root {
-    --brand: #1F6FB5;
-    --brand-light: #4A90C8;
-    --brand-dark: #15507F;
-    --accent: #E8822E;
-    --bg: #F4F5F7;
-    --bg-grad-1: #E8F1F8;
-    --bg-grad-2: #F4F5F7;
+    --brand: #0A66C2;
+    --brand-light: #3D87D4;
+    --brand-dark: #084E95;
+    --brand-bg: #E7F0FA;
+    --accent: #B9791F;
+    --bg: #F5F6F8;
     --card: #ffffff;
-    --text: #1C2A36;
-    --text-soft: #5B6B78;
+    --text: #1A2733;
+    --text-soft: #5C6B7A;
     --text-mute: #9ca3af;
-    --border: #E2E5EA;
-    --border-soft: #f3f4f6;
-    --soon-bg: #f9fafb;
-    --soon-text: #9ca3af;
-    --success: #82B43A;
-    --warning: #f59e0b;
-    --danger: #D64545;
-    --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
-    --shadow-hover: 0 4px 12px rgba(31,111,181,0.12), 0 2px 4px rgba(0,0,0,0.04);
+    --border: #E1E4E8;
+    --border-soft: #F5F6F8;
+    --success: #2E7D4F;
+    --warning: #B9791F;
+    --danger: #C0392B;
+    --shadow: 0 1px 3px rgba(16,24,40,0.08);
+    --shadow-hover: 0 4px 12px rgba(16,24,40,0.10), 0 2px 4px rgba(16,24,40,0.05);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -179,7 +176,7 @@
   }
   .nav-item:hover { background: var(--bg); color: var(--text); }
   .nav-item.active {
-    background: var(--bg-grad-1);
+    background: var(--brand-bg);
     color: var(--brand);
     font-weight: 600;
   }
@@ -274,7 +271,7 @@
   .company-avatar {
     width: 56px; height: 56px;
     border-radius: 14px;
-    background: var(--bg-grad-1);
+    background: var(--brand-bg);
     border: 1px solid var(--border);
     display: flex; align-items: center; justify-content: center;
     font-size: 26px;
@@ -290,7 +287,7 @@
   .tag {
     display: inline-flex;
     align-items: center;
-    background: var(--bg-grad-1);
+    background: var(--brand-bg);
     color: var(--brand-dark);
     font-size: 11px;
     font-weight: 600;
@@ -298,8 +295,8 @@
     border-radius: 10px;
   }
   .tag.pink {
-    background: #FEF0E6;
-    color: #B85B12;
+    background: #FEF6E4;
+    color: #7A5200;
   }
   .tag.gray {
     background: var(--bg);
@@ -360,12 +357,12 @@
     background: var(--brand);
     color: #fff;
     border-color: transparent;
-    box-shadow: 0 2px 8px rgba(31,111,181,0.25);
+    box-shadow: 0 2px 8px rgba(16,24,40,0.12);
   }
   .btn-primary:hover {
     background: var(--brand-dark);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(31,111,181,0.3);
+    box-shadow: 0 4px 12px rgba(10,102,194,0.22);
   }
   .btn-icon {
     width: 36px;
@@ -468,7 +465,7 @@
     border-radius: 6px;
     transition: background 0.15s;
   }
-  .section-action:hover { background: var(--bg-grad-1); }
+  .section-action:hover { background: var(--brand-bg); }
 
   /* 担当者リスト */
   .contact-list { display: flex; flex-direction: column; gap: 8px; }
@@ -509,7 +506,7 @@
     gap: 6px;
   }
   .contact-name .badge-main {
-    background: var(--bg-grad-1);
+    background: var(--brand-bg);
     color: var(--brand-dark);
     font-size: 10px;
     font-weight: 700;
@@ -544,7 +541,7 @@
   .add-row:hover {
     border-color: var(--brand-light);
     color: var(--brand);
-    background: var(--bg-grad-1);
+    background: var(--brand-bg);
   }
 
   /* 商談カード */
@@ -609,8 +606,8 @@
     color: #1e40af;
   }
   .stage-badge.negotiation {
-    background: #FEF0E6;
-    color: #B85B12;
+    background: #FEF6E4;
+    color: #7A5200;
   }
   .stage-badge::before {
     content: '';
@@ -634,7 +631,7 @@
     cursor: pointer;
     transition: background 0.15s;
   }
-  .deal-link:hover { background: var(--bg-grad-1); }
+  .deal-link:hover { background: var(--brand-bg); }
 
   /* タイムライン（活動履歴） */
   .timeline {
@@ -709,7 +706,7 @@
     outline: none;
     border-color: var(--brand-light);
     background: #fff;
-    box-shadow: 0 0 0 3px rgba(31,111,181,0.08);
+    box-shadow: 0 0 0 3px rgba(10,102,194,0.10);
   }
   .memo-area::placeholder {
     color: var(--text-mute);
@@ -736,7 +733,7 @@
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 8px 24px rgba(31,111,181,0.30);
+    box-shadow: 0 4px 16px rgba(16,24,40,0.16);
     display: flex;
     align-items: center;
     gap: 8px;
@@ -747,7 +744,7 @@
   .ai-fab:hover {
     background: var(--brand-dark);
     transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 12px 32px rgba(31,111,181,0.40);
+    box-shadow: 0 8px 24px rgba(16,24,40,0.20);
   }
   .ai-fab .fab-icon { font-size: 18px; }
 

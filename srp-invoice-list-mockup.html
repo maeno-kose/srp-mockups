@@ -6,35 +6,32 @@
 <title>シンクロニシティシステムズ - 請求書</title>
 <style>
   :root {
-    --brand: #1F6FB5;
-    --brand-light: #4A90C8;
-    --brand-dark: #15507F;
-    --accent: #E8822E;
-    --bg: #F4F5F7;
-    --bg-grad-1: #E8F1F8;
-    --bg-grad-2: #F4F5F7;
+    --brand: #0A66C2;
+    --brand-light: #3D87D4;
+    --brand-dark: #084E95;
+    --brand-bg: #E7F0FA;
+    --accent: #B9791F;
+    --bg: #F5F6F8;
     --card: #ffffff;
-    --text: #1C2A36;
-    --text-soft: #5B6B78;
+    --text: #1A2733;
+    --text-soft: #5C6B7A;
     --text-mute: #9ca3af;
-    --border: #E2E5EA;
-    --border-soft: #f3f4f6;
-    --soon-bg: #f9fafb;
-    --soon-text: #9ca3af;
-    --success: #82B43A;
-    --success-bg: #EBF5DA;
-    --success-text: #3D6B10;
-    --warning: #f59e0b;
-    --warning-bg: #fef3c7;
-    --warning-text: #92400e;
-    --danger: #D64545;
+    --border: #E1E4E8;
+    --border-soft: #F5F6F8;
+    --success: #2E7D4F;
+    --success-bg: #E6F4ED;
+    --success-text: #1E5535;
+    --warning: #B9791F;
+    --warning-bg: #FEF6E4;
+    --warning-text: #7A5200;
+    --danger: #C0392B;
     --danger-bg: #FDEAEA;
-    --danger-text: #8B1A1A;
-    --info: #1F6FB5;
-    --info-bg: #E8F1F8;
-    --info-text: #15507F;
-    --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
-    --shadow-hover: 0 4px 12px rgba(31,111,181,0.12), 0 2px 4px rgba(0,0,0,0.04);
+    --danger-text: #7A1D1D;
+    --info: #0A66C2;
+    --info-bg: #E7F0FA;
+    --info-text: #084E95;
+    --shadow: 0 1px 3px rgba(16,24,40,0.08);
+    --shadow-hover: 0 4px 12px rgba(16,24,40,0.10), 0 2px 4px rgba(16,24,40,0.05);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -187,7 +184,7 @@
   }
   .nav-item:hover { background: var(--bg); color: var(--text); }
   .nav-item.active {
-    background: var(--bg-grad-1);
+    background: var(--brand-bg);
     color: var(--brand);
     font-weight: 600;
   }
@@ -263,11 +260,11 @@
   .btn-primary {
     background: var(--brand);
     color: #fff;
-    box-shadow: 0 1px 2px rgba(31,111,181,0.2);
+    box-shadow: 0 1px 2px rgba(16,24,40,0.10);
   }
   .btn-primary:hover {
     background: var(--brand-dark);
-    box-shadow: 0 2px 6px rgba(31,111,181,0.3);
+    box-shadow: 0 2px 6px rgba(10,102,194,0.22);
     transform: translateY(-1px);
   }
   .btn-secondary {
@@ -312,8 +309,8 @@
   .kpi-card.kpi-danger:hover { border-color: var(--danger); box-shadow: 0 4px 12px rgba(239,68,68,0.15); }
   .kpi-card.active {
     border-color: var(--brand);
-    background: var(--bg-grad-1);
-    box-shadow: 0 0 0 2px rgba(31,111,181,0.15);
+    background: var(--brand-bg);
+    box-shadow: 0 0 0 2px rgba(10,102,194,0.18);
   }
   .kpi-card-label {
     font-size: 11px;
@@ -623,7 +620,7 @@
     transition: all 0.12s;
   }
   .action-btn:hover {
-    background: var(--bg-grad-1);
+    background: var(--brand-bg);
     color: var(--brand);
   }
   .reminder-btn {
@@ -773,13 +770,13 @@
     align-items: center;
     gap: 10px;
     cursor: pointer;
-    box-shadow: 0 6px 24px rgba(31,111,181,0.18), 0 2px 6px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 16px rgba(16,24,40,0.12), 0 2px 6px rgba(16,24,40,0.06);
     transition: all 0.18s;
     max-width: 360px;
   }
   .ai-fab:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 32px rgba(31,111,181,0.25), 0 4px 10px rgba(0,0,0,0.08);
+    box-shadow: 0 6px 24px rgba(16,24,40,0.14), 0 4px 10px rgba(16,24,40,0.07);
     border-color: var(--brand-light);
   }
   .ai-fab-icon {
@@ -846,7 +843,7 @@
   .modal-icon {
     width: 56px; height: 56px;
     border-radius: 14px;
-    background: var(--bg-grad-1);
+    background: var(--brand-bg);
     display: flex; align-items: center; justify-content: center;
     font-size: 28px;
     margin: 0 auto 16px;

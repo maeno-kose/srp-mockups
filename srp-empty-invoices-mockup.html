@@ -6,24 +6,23 @@
 <title>シンクロニシティシステムズ - 請求書（空状態）</title>
 <style>
   :root {
-    --brand: #1F6FB5;
-    --brand-light: #4A90C8;
-    --brand-dark: #15507F;
-    --accent: #E8822E;
-    --bg: #F4F5F7;
-    --bg-grad-1: #E8F1F8;
-    --bg-grad-2: #F4F5F7;
+    --brand: #0A66C2;
+    --brand-light: #3D87D4;
+    --brand-dark: #084E95;
+    --brand-bg: #E7F0FA;
+    --accent: #B9791F;
+    --bg: #F5F6F8;
     --card: #ffffff;
-    --text: #1C2A36;
-    --text-soft: #5B6B78;
+    --text: #1A2733;
+    --text-soft: #5C6B7A;
     --text-mute: #9ca3af;
-    --border: #E2E5EA;
-    --border-soft: #f3f4f6;
-    --success: #82B43A;
-    --warning: #f59e0b;
-    --error: #D64545;
-    --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
-    --focus-ring: 0 0 0 3px rgba(31,111,181,0.25);
+    --border: #E1E4E8;
+    --border-soft: #F5F6F8;
+    --success: #2E7D4F;
+    --warning: #B9791F;
+    --error: #C0392B;
+    --shadow: 0 1px 3px rgba(16,24,40,0.08);
+    --focus-ring: 0 0 0 3px rgba(10,102,194,0.22);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -175,9 +174,8 @@
     content: "";
     position: absolute;
     inset: 0;
-    background:
-      radial-gradient(circle at 50% -20%, rgba(31,111,181,0.06), transparent 50%),
-      radial-gradient(circle at 100% 100%, rgba(31,111,181,0.04), transparent 35%);
+    background: var(--brand-bg);
+    opacity: 0.35;
     pointer-events: none;
   }
   .empty-illust {
@@ -188,14 +186,14 @@
     width: 120px;
     height: 120px;
     border-radius: 32px;
-    background: var(--bg-grad-1);
+    background: var(--brand-bg);
     margin-bottom: 24px;
     z-index: 1;
   }
   .empty-illust .emoji {
     font-size: 56px;
     line-height: 1;
-    filter: drop-shadow(0 4px 8px rgba(31,111,181,0.15));
+    filter: drop-shadow(0 4px 8px rgba(16,24,40,0.12));
   }
   /* 紙ハナビラ風（請求書を表現） */
   .empty-illust .paper {
@@ -205,7 +203,7 @@
     background: #fff;
     border: 1px solid var(--border);
     border-radius: 4px;
-    box-shadow: 0 4px 10px rgba(31,111,181,0.14);
+    box-shadow: 0 2px 6px rgba(16,24,40,0.10);
     transform: rotate(-12deg);
   }
   .empty-illust .paper::before {
@@ -261,7 +259,7 @@
   .btn-primary:hover {
     background: var(--brand-dark);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(31,111,181,0.30);
+    box-shadow: 0 4px 12px rgba(10,102,194,0.22);
   }
   .btn-secondary {
     background: #fff;
@@ -288,7 +286,7 @@
     border-radius: 10px;
     transition: background 0.15s;
   }
-  .ai-cta:hover { background: var(--bg-grad-1); }
+  .ai-cta:hover { background: var(--brand-bg); }
   .ai-cta-icon {
     width: 24px; height: 24px;
     border-radius: 8px;
@@ -303,18 +301,18 @@
   .tip-strip {
     margin-top: 24px;
     padding: 16px 20px;
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    border: 1px solid #fde68a;
+    background: #FEF6E4;
+    border: 1px solid #E8C97A;
     border-radius: 12px;
     font-size: 13px;
-    color: #854d0e;
+    color: #7A5200;
     display: flex;
     align-items: center;
     gap: 12px;
     text-align: left;
   }
   .tip-strip .tip-icon { font-size: 22px; flex-shrink: 0; }
-  .tip-strip strong { color: #78350f; }
+  .tip-strip strong { color: #5A3C00; }
 
   /* 次は何？ */
   .next-suggest {
@@ -358,7 +356,7 @@
   .next-icon {
     width: 28px; height: 28px;
     border-radius: 8px;
-    background: var(--bg-grad-1);
+    background: var(--brand-bg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -465,7 +463,7 @@
 
     <div class="tip-strip">
       <span class="tip-icon" aria-hidden="true">💡</span>
-      <span><strong>はじめての請求書？</strong>会社情報・銀行口座・登録番号は<a href="#" onclick="return false;" style="color:#78350f;font-weight:700;text-decoration:underline;">設定画面</a>で先に入れておくと、毎回入力しなくて済みます。</span>
+      <span><strong>はじめての請求書？</strong>会社情報・銀行口座・登録番号は<a href="#" onclick="return false;" style="color:#5A3C00;font-weight:700;text-decoration:underline;">設定画面</a>で先に入れておくと、毎回入力しなくて済みます。</span>
     </div>
   </div>
 

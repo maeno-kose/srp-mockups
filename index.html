@@ -7,35 +7,39 @@
 <title>シンクロニシティシステムズ — モック確認用（社内）</title>
 <style>
   :root {
-    --primary: #1F6FB5;
-    --primary-dark: #15507F;
-    --primary-soft: #E8F1F8;
-    --orange: #E8822E;
-    --lime: #82B43A;
-    --ink: #1C2A36;
-    --sub: #5B6B78;
-    --border: #E2E5EA;
-    --bg: #F4F5F7;
+    --primary: #0A66C2;
+    --primary-dark: #084E95;
+    --primary-soft: #E7F0FA;
+    --amber: #B9791F;
+    --ink: #1A2733;
+    --sub: #5C6B7A;
+    --border: #E1E4E8;
+    --bg: #F5F6F8;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
          background: var(--bg); color: var(--ink); line-height: 1.7; }
   header { background: var(--primary-dark); color: #fff; padding: 32px 24px; }
   header h1 { font-size: 20px; }
-  header p { color: #cfe0ee; font-size: 13px; margin-top: 6px; }
+  header p { color: #c8d8ea; font-size: 13px; margin-top: 6px; }
   .wrap { max-width: 880px; margin: 0 auto; padding: 28px 24px 64px; }
   .note { background: var(--primary-soft); border-left: 4px solid var(--primary);
-          padding: 14px 16px; border-radius: 6px; font-size: 13px; color: var(--ink); margin-bottom: 28px; }
+          padding: 14px 16px; border-radius: 6px; font-size: 13px; color: var(--ink); margin-bottom: 24px; }
+  .pick { background: #fff; border: 1px solid var(--amber); border-radius: 8px;
+          padding: 16px; margin-bottom: 28px; }
+  .pick b { color: var(--amber); }
   h2 { font-size: 14px; color: var(--sub); margin: 28px 0 12px; font-weight: 600; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
   a.card { display: block; background: #fff; border: 1px solid var(--border); border-radius: 8px;
-           padding: 16px; text-decoration: none; color: var(--ink); transition: .15s; }
-  a.card:hover { border-color: var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+           padding: 16px; text-decoration: none; color: var(--ink); transition: .12s; }
+  a.card:hover { border-color: var(--primary); box-shadow: 0 1px 6px rgba(16,24,40,.1); }
+  a.card.feat { border-color: var(--primary); background: var(--primary-soft); }
   a.card .t { font-weight: 600; font-size: 14px; }
   a.card .d { font-size: 12px; color: var(--sub); margin-top: 4px; }
   .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 10px;
          background: var(--primary-soft); color: var(--primary-dark); margin-left: 6px; }
   .tag.ref { background: #f0ece6; color: #8a6d4a; }
+  .tag.new { background: var(--amber); color: #fff; }
   footer { color: var(--sub); font-size: 12px; margin-top: 36px; border-top: 1px solid var(--border); padding-top: 16px; }
   .palette { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
   .sw { width: 64px; }
@@ -46,26 +50,36 @@
 <body>
 <header>
   <h1>シンクロニシティシステムズ — 画面モック（社内確認用）</h1>
-  <p>SRP / Startup Resource Planning ・ 株式会社Subliminal ・ 配色刷新版 v2 (2026-05-19)</p>
+  <p>SRP / Startup Resource Planning ・ 株式会社Subliminal ・ 配色刷新 案1「エンタープライズブルー」(2026-05-19)</p>
 </header>
 <div class="wrap">
   <div class="note">
-    湯浅さんのフィードバック（「AIでよくある色味」）を受け、配色を刷新しました。<br>
-    旧：indigo + pink + グラデ多用 → 新：<b>青を主役</b>に、オレンジ・黄緑をアクセント。グラデーションは原則フラット化。ロゴは現状維持。
+    「AIでよくある色味」のフィードバックを受け、配色を <b>SAP Fiori / Microsoft Dynamics 型のエンタープライズブルー</b> に刷新しました。<br>
+    indigo+pink+グラデ多用 → <b>真の青（色相210°）を主役1色</b>＋低彩度の琥珀アクセント。グラデーションは全廃しました。
   </div>
 
-  <h2>新カラーパレット</h2>
+  <div class="pick">
+    🎨 <b>ロゴは選定中です。</b>「ロゴ6案」ページで見比べて、Slackで番号を教えてください。
+    （※下の各画面モック内のロゴはまだ旧ロゴのままです。選定後に全画面へ反映します）
+  </div>
+
+  <h2>新カラーパレット（案1）</h2>
   <div class="palette">
-    <div class="sw"><div class="chip" style="background:#1F6FB5"></div><div class="lbl">青 主役</div></div>
-    <div class="sw"><div class="chip" style="background:#15507F"></div><div class="lbl">青 濃</div></div>
-    <div class="sw"><div class="chip" style="background:#E8822E"></div><div class="lbl">オレンジ</div></div>
-    <div class="sw"><div class="chip" style="background:#82B43A"></div><div class="lbl">黄緑</div></div>
-    <div class="sw"><div class="chip" style="background:#1C2A36"></div><div class="lbl">文字</div></div>
+    <div class="sw"><div class="chip" style="background:#0A66C2"></div><div class="lbl">青 主役</div></div>
+    <div class="sw"><div class="chip" style="background:#084E95"></div><div class="lbl">濃青</div></div>
+    <div class="sw"><div class="chip" style="background:#B9791F"></div><div class="lbl">琥珀</div></div>
+    <div class="sw"><div class="chip" style="background:#1A2733"></div><div class="lbl">文字</div></div>
+    <div class="sw"><div class="chip" style="background:#F5F6F8"></div><div class="lbl">背景</div></div>
+  </div>
+
+  <h2>▶ ロゴ案（要選定）</h2>
+  <div class="grid">
+    <a class="card feat" href="srp-logo-proposals.html"><div class="t">ロゴ 6案<span class="tag new">選んでください</span></div><div class="d">案1配色のカラーロゴ6案。白背景／濃紺反転／小サイズで比較</div></a>
   </div>
 
   <h2>主要画面</h2>
   <div class="grid">
-    <a class="card" href="srp-home-mockup.html"><div class="t">ホーム<span class="tag">主要</span></div><div class="d">アプリランチャー・AIバー</div></a>
+    <a class="card" href="srp-home-mockup.html"><div class="t">ホーム</div><div class="d">アプリランチャー・AIバー</div></a>
     <a class="card" href="srp-account-detail-mockup.html"><div class="t">お客様詳細</div><div class="d">取引先・商談・活動履歴</div></a>
     <a class="card" href="srp-invoice-list-mockup.html"><div class="t">請求書一覧</div><div class="d">請求ステータス・督促</div></a>
     <a class="card" href="srp-quote-create-mockup.html"><div class="t">見積書作成</div><div class="d">見積フォーム・A4プレビュー</div></a>
@@ -86,7 +100,7 @@
 
   <h2>参考</h2>
   <div class="grid">
-    <a class="card" href="srp-logo-options.html"><div class="t">ロゴ案<span class="tag ref">現状維持</span></div><div class="d">配色刷新の対象外</div></a>
+    <a class="card" href="srp-logo-options.html"><div class="t">旧ロゴ案<span class="tag ref">旧・参考</span></div><div class="d">配色刷新前のロゴ案</div></a>
   </div>
 
   <footer>

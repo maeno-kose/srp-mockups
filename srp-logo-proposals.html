@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SRP ロゴ提案 — 案1エンタープライズブルー準拠</title>
+<style>
+  :root {
+    --p-blue:   #0A66C2;
+    --p-dark:   #084E95;
+    --p-amber:  #B9791F;
+    --p-ink:    #1A2733;
+    --p-sky:    #3A8DD4;   /* シンボル補助色（p-blueより明るい） */
+    --p-steel:  #5B8DAE;   /* 第3トーン */
+    --bg:       #F2F5F8;
+    --card:     #FFFFFF;
+    --border:   #DDE3EA;
+    --text:     #1A2733;
+    --text-sub: #4E6070;
+    --text-mute:#8A9BAB;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
+                 "Hiragino Sans", "Yu Gothic UI", Meiryo, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    padding: 48px 24px 80px;
+  }
+
+  /* ページヘッダー */
+  .page-header {
+    max-width: 960px;
+    margin: 0 auto 48px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+  }
+  .page-header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--p-ink);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .page-header p {
+    font-size: 13px;
+    color: var(--text-sub);
+    line-height: 1.7;
+  }
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 3px 10px;
+    border-radius: 100px;
+    border: 1px solid;
+  }
+  .badge-blue  { color: var(--p-blue);  border-color: #A8C8E8; background: #EBF3FB; }
+  .badge-amber { color: var(--p-amber); border-color: #D4B87A; background: #FBF4E6; }
+  .badge-ink   { color: var(--p-ink);   border-color: #B0BDCA; background: #EBF0F4; }
+  .swatch {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+  }
+
+  /* カード グリッド */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+    gap: 28px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(10,40,70,0.06);
+  }
+
+  .card-header {
+    padding: 20px 24px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-header .case-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--p-blue);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .card-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--p-ink);
+    letter-spacing: -0.005em;
+  }
+  .card-header .concept {
+    font-size: 12px;
+    color: var(--text-sub);
+    margin-top: 6px;
+    line-height: 1.65;
+  }
+
+  .card-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* プレビューエリア */
+  .preview-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .preview-box {
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 24px 16px;
+  }
+  .preview-box.light {
+    background: #FFFFFF;
+    border: 1px solid var(--border);
+  }
+  .preview-box.dark {
+    background: var(--p-dark);
+    border: 1px solid #063A70;
+  }
+  .preview-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .preview-box.light .preview-label { color: var(--text-mute); }
+  .preview-box.dark  .preview-label { color: rgba(255,255,255,0.45); }
+
+  /* サイズ比較行 */
+  .size-row {
+    background: #F7FAFC;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .size-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .size-item .size-label {
+    font-size: 10px;
+    color: var(--text-mute);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+  .size-item.header-size svg,
+  .size-item.header-size .logo-inline { height: 40px; }
+  .size-item.favicon-size svg { width: 32px; height: 32px; }
+
+  /* ロゴタイプ共通 */
+  .logotype {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+  .logotype.dark-ver { color: #FFFFFF; }
+  .logotype.light-ver { color: var(--p-ink); }
+
+  .logo-ja {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--p-ink);
+  }
+  .logo-ja.on-dark { color: #FFFFFF; }
+
+  .logo-en {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--p-blue);
+  }
+  .logo-en.on-dark { color: #7FBBEA; }
+
+  .logo-sub-text {
+    font-size: 8.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-mute);
+    margin-top: 1px;
+  }
+  .logo-sub-text.on-dark { color: rgba(255,255,255,0.5); }
+
+  .logo-inline-wrap {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .logo-text-wrap {
+    display: flex;
+    flex-direction: column;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>シンクロニシティシステムズ — ロゴ提案 6案</h1>
+  <p>案1エンタープライズブルー準拠 / カラーロゴ / インラインSVG / フラットカラー（グラデーションなし）<br>
+     各案を白背景・濃紺背景・小サイズで確認できます。</p>
+  <div class="badge-row">
+    <span class="badge badge-blue"><span class="swatch" style="background:#0A66C2;"></span>#0A66C2 プライマリ</span>
+    <span class="badge badge-blue"><span class="swatch" style="background:#084E95;"></span>#084E95 濃青</span>
+    <span class="badge badge-amber"><span class="swatch" style="background:#B9791F;"></span>#B9791F 琥珀アクセント</span>
+    <span class="badge badge-ink"><span class="swatch" style="background:#1A2733;"></span>#1A2733 インク</span>
+    <span class="badge badge-ink" style="font-style:italic;">グラデーション禁止 / 旧カラー（紫系・ピンク系）不使用</span>
+  </div>
+</div>
+
+<div class="grid">
+
+  <!-- ======================================================
+       案1 — ノードリング＋和文ロゴタイプ
+       4つのノードが正方形に並び、対角線で接続。
+       「複数のアプリが同期」のメタファー。
+  ====================================================== -->
+  <div class="card">
+    <div class="card-header">
+      <div class="case-label">案 1</div>
+      <h2>ノードリング ＋ 和文ロゴタイプ</h2>
+      <div class="concept">
+        4つの正方形ノードを対角線で結ぶ「同期網」のシンボル。<br>
+        和文「シンクロニシティシステムズ」を縦2行で組み、重厚さを出す。
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="preview-section">
+        <!-- 白背景 -->
+        <div class="preview-box light">
+          <div class="logo-inline-wrap">
+            <!-- シンボル -->
+            <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- 対角線 -->
+              <line x1="10" y1="10" x2="32" y2="32" stroke="#0A66C2" stroke-width="1.6" opacity="0.35"/>
+              <line x1="32" y1="10" x2="10" y2="32" stroke="#0A66C2" stroke-width="1.6" opacity="0.35"/>
+              <!-- 水平・垂直ライン -->
+              <line x1="10" y1="10" x2="32" y2="10" stroke="#0A66C2" stroke-width="1.6" opacity="0.5"/>
+              <line x1="10" y1="32" x2="32" y2="32" stroke="#0A66C2" stroke-width="1.6" opacity="0.5"/>
+              <line x1="10" y1="10" x2="10" y2="32" stroke="#0A66C2" stroke-width="1.6" opacity="0.5"/>
+              <line x1="32" y1="10" x2="32" y2="32" stroke="#0A66C2" stroke-width="1.6" opacity="0.5"/>
+              <!-- ノード -->
+              <rect x="6" y="6" width="8" height="8" rx="2" fill="#0A66C2"/>
+              <rect x="28" y="6" width="8" height="8" rx="2" fill="#0A66C2"/>
+              <rect x="6" y="28" width="8" height="8" rx="2" fill="#B9791F"/>
+              <rect x="28" y="28" width="8" height="8" rx="2" fill="#B9791F"/>
+            </svg>
+            <!-- ロゴタイプ -->
+            <div class="logo-text-wrap">
+              <span class="logo-ja" style="font-size:13px; line-height:1.2;">シンクロニシティ</span>
+              <span class="logo-ja" style="font-size:13px; line-height:1.2;">システムズ</span>
+              <span class="logo-sub-text" style="margin-top:3px;">SYNCHRONICITY SYSTEMS</span>
+            </div>
+          </div>
+          <div class="preview-label">白背景</div>
+        </div>
+        <!-- 濃紺背景 -->
+        <div class="preview-box dark">
+          <div class="logo-inline-wrap">
+            <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <line x1="10" y1="10" x2="32" y2="32" stroke="#FFFFFF" stroke-width="1.6" opacity="0.25"/>
+              <line x1="32" y1="10" x2="10" y2="32" stroke="#FFFFFF" stroke-width="1.6" opacity="0.25"/>
+              <line x1="10" y1="10" x2="32" y2="10" stroke="#FFFFFF" stroke-width="1.6" opacity="0.45"/>
+              <line x1="10" y1="32" x2="32" y2="32" stroke="#FFFFFF" stroke-width="1.6" opacity="0.45"/>
+              <line x1="10" y1="10" x2="10" y2="32" stroke="#FFFFFF" stroke-width="1.6" opacity="0.45"/>
+              <line x1="32" y1="10" x2="32" y2="32" stroke="#FFFFFF" stroke-width="1.6" opacity="0.45"/>
+              <rect x="6" y="6" width="8" height="8" rx="2" fill="#FFFFFF"/>
+              <rect x="28" y="6" width="8" height="8" rx="2" fill="#FFFFFF"/>
+              <rect x="6" y="28" width="8" height="8" rx="2" fill="#F4C470"/>
+              <rect x="28" y="28" width="8" height="8" rx="2" fill="#F4C470"/>
+            </svg>
+            <div class="logo-text-wrap">
+              <span class="logo-ja on-dark" style="font-size:13px; line-height:1.2;">シンクロニシティ</span>
+              <span class="logo-ja on-dark" style="font-size:13px; line-height:1.2;">システムズ</span>
+              <span class="logo-sub-text on-dark" style="margin-top:3px;">SYNCHRONICITY SYSTEMS</span>
+            </div>
+          </div>
+          <div class="preview-label">濃紺反転</div>
+        </div>
+      </div>
+      <!-- サイズ比較 -->
+      <div class="size-row">
+        <!-- ヘッダー用 40px高 -->
+        <div class="size-item">
+          <div class="logo-inline-wrap" style="height:40px; align-items:center;">
+            <svg width="28" height="28" viewBox="0 0 42 42" fill="none">
+              <line x1="10" y1="10" x2="32" y2="32" stroke="#0A66C2" stroke-width="1.6" opacity="0.35"/>
+              <line x1="32" y1="10" x2="10" y2="32" stroke="#0A66C2" stroke-width="1.6" opacity="0.35"/>
+              <line x1="10" y1="10" x2="32" y2="10" stroke="#0A66C2" stroke-width="1.6" opacity="0.5"/>
+              <line x1="10" y1="32" x2="32" y2="32" stroke="#0A66C2" stroke-width="1.6" opacity="0.5"/>
+              <line x1="10" y1="10" x2="10" y2="32" stroke="#0A66C2" stroke-width="1.6" opacity="0.5"/>
+              <line x1="32" y1="10" x2="32" y2="32" stroke="#0A66C2" stroke-width="1.6" opacity="0.5"/>
+              <rect x="6" y="6" width="8" height="8" rx="2" fill="#0A66C2"/>
+              <rect x="28" y="6" width="8" height="8" rx="2" fill="#0A66C2"/>
+              <rect x="6" y="28" width="8" height="8" rx="2" fill="#B9791F"/>
+              <rect x="28" y="28" width="8" height="8" rx="2" fill="#B9791F"/>
+            </svg>
+            <div class="logo-text-wrap">
+              <span style="font-size:10px; font-weight:700; color:#1A2733; line-height:1.2;">シンクロニシティ</span>
+              <span style="font-size:10px; font-weight:700; color:#1A2733; line-height:1.2;">システムズ</span>
+            </div>
+          </div>
+          <span class="size-label">ヘッダー用</span>
+        </div>
+        <!-- favicon 32px -->
+        <div class="size-item">
+          <svg width="32" height="32" viewBox="0 0 42 42" fill="none">
+            <rect x="6" y="6" width="8" height="8" rx="2" fill="#0A66C2"/>
+            <rect x="28" y="6" width="8" height="8" rx="2" fill="#0A66C2"/>
+            <rect x="6" y="28" width="8" height="8" rx="2" fill="#B9791F"/>
+            <rect x="28" y="28" width="8" height="8" rx="2" fill="#B9791F"/>
+            <line x1="10" y1="10" x2="32" y2="10" stroke="#0A66C2" stroke-width="2" opacity="0.5"/>
+            <line x1="10" y1="32" x2="32" y2="32" stroke="#0A66C2" stroke-width="2" opacity="0.5"/>
+            <line x1="10" y1="10" x2="10" y2="32" stroke="#0A66C2" stroke-width="2" opacity="0.5"/>
+            <line x1="32" y1="10" x2="32" y2="32" stroke="#0A66C2" stroke-width="2" opacity="0.5"/>
+          </svg>
+          <span class="size-label">favicon 32px</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================
+       案2 — リップルアーク＋欧文ロゴタイプ
+       同心の弧3本が外に広がる「共鳴リップル」。
+       欧文「Synchronicity Systems」を横1行。
+  ====================================================== -->
+  <div class="card">
+    <div class="card-header">
+      <div class="case-label">案 2</div>
+      <h2>リップルアーク ＋ 欧文ロゴタイプ</h2>
+      <div class="concept">
+        同心弧3本が左から右へ広がる「共鳴・伝播」のシンボル。<br>
+        欧文「Synchronicity Systems」を1行で組み、グローバルな印象を与える。
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="preview-section">
+        <div class="preview-box light">
+          <div class="logo-inline-wrap">
+            <!-- リップルシンボル -->
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- 中心点 -->
+              <circle cx="10" cy="22" r="4" fill="#0A66C2"/>
+              <!-- 弧1 -->
+              <path d="M 18 10 A 14 14 0 0 1 18 34" stroke="#0A66C2" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <!-- 弧2 -->
+              <path d="M 25 6 A 20 20 0 0 1 25 38" stroke="#3A8DD4" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <!-- 弧3 (amber) -->
+              <path d="M 32 3 A 26 26 0 0 1 32 41" stroke="#B9791F" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            </svg>
+            <div class="logo-text-wrap">
+              <span style="font-size:14px; font-weight:700; color:#1A2733; letter-spacing:-0.01em;">Synchronicity</span>
+              <span style="font-size:14px; font-weight:700; color:#0A66C2; letter-spacing:-0.01em;">Systems</span>
+            </div>
+          </div>
+          <div class="preview-label">白背景</div>
+        </div>
+        <div class="preview-box dark">
+          <div class="logo-inline-wrap">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+              <circle cx="10" cy="22" r="4" fill="#FFFFFF"/>
+              <path d="M 18 10 A 14 14 0 0 1 18 34" stroke="#FFFFFF" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <path d="M 25 6 A 20 20 0 0 1 25 38" stroke="rgba(255,255,255,0.6)" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <path d="M 32 3 A 26 26 0 0 1 32 41" stroke="#F4C470" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            </svg>
+            <div class="logo-text-wrap">
+              <span style="font-size:14px; font-weight:700; color:#FFFFFF; letter-spacing:-0.01em;">Synchronicity</span>
+              <span style="font-size:14px; font-weight:700; color:#7FBBEA; letter-spacing:-0.01em;">Systems</span>
+            </div>
+          </div>
+          <div class="preview-label">濃紺反転</div>
+        </div>
+      </div>
+      <div class="size-row">
+        <div class="size-item">
+          <div class="logo-inline-wrap" style="height:40px; align-items:center;">
+            <svg width="30" height="30" viewBox="0 0 44 44" fill="none">
+              <circle cx="10" cy="22" r="4" fill="#0A66C2"/>
+              <path d="M 18 10 A 14 14 0 0 1 18 34" stroke="#0A66C2" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <path d="M 25 6 A 20 20 0 0 1 25 38" stroke="#3A8DD4" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <path d="M 32 3 A 26 26 0 0 1 32 41" stroke="#B9791F" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            </svg>
+            <div class="logo-text-wrap">
+              <span style="font-size:11px; font-weight:700; color:#1A2733;">Synchronicity</span>
+              <span style="font-size:11px; font-weight:700; color:#0A66C2;">Systems</span>
+            </div>
+          </div>
+          <span class="size-label">ヘッダー用</span>
+        </div>
+        <div class="size-item">
+          <svg width="32" height="32" viewBox="0 0 44 44" fill="none">
+            <circle cx="10" cy="22" r="5" fill="#0A66C2"/>
+            <path d="M 18 10 A 14 14 0 0 1 18 34" stroke="#0A66C2" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M 26 6 A 20 20 0 0 1 26 38" stroke="#3A8DD4" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M 34 2 A 28 28 0 0 1 34 42" stroke="#B9791F" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
+          <span class="size-label">favicon 32px</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================
+       案3 — SS モノグラム（組み文字）
+       "S"を2つ噛み合わせた幾何モノグラム。
+       ネガティブスペースで内側の"S"を浮かび上がらせる。
+  ====================================================== -->
+  <div class="card">
+    <div class="card-header">
+      <div class="case-label">案 3</div>
+      <h2>SS モノグラム</h2>
+      <div class="concept">
+        "S" を2つ組み合わせて「SS」を形成するモノグラム。<br>
+        Synchronicity と Systems の頭文字を一体化、洗練されたブランド感。
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="preview-section">
+        <div class="preview-box light">
+          <!-- SSモノグラム: 大きな青S + 小さな琥珀S をオフセット配置 -->
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- 大S (青) -->
+            <path d="
+              M 36 13
+              C 36 13 20 11 16 18
+              C 12 25 24 28 28 30
+              C 36 34 40 38 36 45
+              C 32 52 14 51 14 51
+            " stroke="#0A66C2" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <!-- 小S (琥珀・オフセット右下) -->
+            <path d="
+              M 44 18
+              C 44 18 32 16 29 21
+              C 26 26 35 29 38 31
+              C 44 34 46 38 43 43
+              C 40 48 28 47 28 47
+            " stroke="#B9791F" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+          <div class="preview-label">白背景</div>
+        </div>
+        <div class="preview-box dark">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+            <path d="
+              M 36 13
+              C 36 13 20 11 16 18
+              C 12 25 24 28 28 30
+              C 36 34 40 38 36 45
+              C 32 52 14 51 14 51
+            " stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="
+              M 44 18
+              C 44 18 32 16 29 21
+              C 26 26 35 29 38 31
+              C 44 34 46 38 43 43
+              C 40 48 28 47 28 47
+            " stroke="#F4C470" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+          <div class="preview-label">濃紺反転</div>
+        </div>
+      </div>
+      <!-- サイズ確認 -->
+      <div class="size-row">
+        <div class="size-item">
+          <div class="logo-inline-wrap" style="height:40px; align-items:center;">
+            <svg width="32" height="32" viewBox="0 0 56 56" fill="none">
+              <path d="M 36 13 C 36 13 20 11 16 18 C 12 25 24 28 28 30 C 36 34 40 38 36 45 C 32 52 14 51 14 51" stroke="#0A66C2" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <path d="M 44 18 C 44 18 32 16 29 21 C 26 26 35 29 38 31 C 44 34 46 38 43 43 C 40 48 28 47 28 47" stroke="#B9791F" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+            <div class="logo-text-wrap">
+              <span style="font-size:13px; font-weight:700; color:#1A2733;">Synchronicity</span>
+              <span style="font-size:10px; font-weight:600; color:#0A66C2; letter-spacing:0.06em;">SYSTEMS</span>
+            </div>
+          </div>
+          <span class="size-label">ヘッダー用</span>
+        </div>
+        <div class="size-item">
+          <svg width="32" height="32" viewBox="0 0 56 56" fill="none">
+            <path d="M 36 13 C 36 13 20 11 16 18 C 12 25 24 28 28 30 C 36 34 40 38 36 45 C 32 52 14 51 14 51" stroke="#0A66C2" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M 44 18 C 44 18 32 16 29 21 C 26 26 35 29 38 31 C 44 34 46 38 43 43 C 40 48 28 47 28 47" stroke="#B9791F" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+          <span class="size-label">favicon 32px</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================
+       案4 — 同期リング（噛み合う円弧）
+       2つの円が一部重なり「同期・共鳴」を表す。
+       交差部分に琥珀を差す。
+  ====================================================== -->
+  <div class="card">
+    <div class="card-header">
+      <div class="case-label">案 4</div>
+      <h2>同期リング（噛み合う円弧）</h2>
+      <div class="concept">
+        2つの円環が交差・共鳴する「同期」のメタファー。<br>
+        交差領域に琥珀色を差し込み、協働・融合を象徴する。
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="preview-section">
+        <div class="preview-box light">
+          <svg width="60" height="48" viewBox="0 0 60 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- 左円 -->
+            <circle cx="20" cy="24" r="17" stroke="#0A66C2" stroke-width="3" fill="none"/>
+            <!-- 右円 -->
+            <circle cx="40" cy="24" r="17" stroke="#3A8DD4" stroke-width="3" fill="none"/>
+            <!-- 交差中央の強調（琥珀塗り潰し楕円） -->
+            <ellipse cx="30" cy="24" rx="5" ry="10" fill="#B9791F" opacity="0.85"/>
+            <!-- 中央点 -->
+            <circle cx="30" cy="24" r="2.5" fill="#FFFFFF"/>
+          </svg>
+          <div class="preview-label">白背景</div>
+        </div>
+        <div class="preview-box dark">
+          <svg width="60" height="48" viewBox="0 0 60 48" fill="none">
+            <circle cx="20" cy="24" r="17" stroke="#FFFFFF" stroke-width="3" fill="none"/>
+            <circle cx="40" cy="24" r="17" stroke="rgba(255,255,255,0.6)" stroke-width="3" fill="none"/>
+            <ellipse cx="30" cy="24" rx="5" ry="10" fill="#F4C470" opacity="0.9"/>
+            <circle cx="30" cy="24" r="2.5" fill="#084E95"/>
+          </svg>
+          <div class="preview-label">濃紺反転</div>
+        </div>
+      </div>
+      <div class="size-row">
+        <div class="size-item">
+          <div class="logo-inline-wrap" style="height:40px; align-items:center;">
+            <svg width="36" height="28" viewBox="0 0 60 48" fill="none">
+              <circle cx="20" cy="24" r="17" stroke="#0A66C2" stroke-width="3" fill="none"/>
+              <circle cx="40" cy="24" r="17" stroke="#3A8DD4" stroke-width="3" fill="none"/>
+              <ellipse cx="30" cy="24" rx="5" ry="10" fill="#B9791F" opacity="0.85"/>
+              <circle cx="30" cy="24" r="2.5" fill="#FFFFFF"/>
+            </svg>
+            <div class="logo-text-wrap">
+              <span style="font-size:12px; font-weight:700; color:#1A2733;">シンクロニシティ</span>
+              <span style="font-size:10px; font-weight:600; color:#0A66C2; letter-spacing:0.04em;">SYSTEMS</span>
+            </div>
+          </div>
+          <span class="size-label">ヘッダー用</span>
+        </div>
+        <div class="size-item">
+          <svg width="32" height="32" viewBox="0 0 60 48" fill="none">
+            <circle cx="20" cy="24" r="17" stroke="#0A66C2" stroke-width="3.5" fill="none"/>
+            <circle cx="40" cy="24" r="17" stroke="#3A8DD4" stroke-width="3.5" fill="none"/>
+            <ellipse cx="30" cy="24" rx="5" ry="10" fill="#B9791F" opacity="0.9"/>
+            <circle cx="30" cy="24" r="2.5" fill="#FFFFFF"/>
+          </svg>
+          <span class="size-label">favicon 32px</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================
+       案5 — アプリアイコン型（正方形・塗り潰し背景）
+       濃青の正方形背景に白シンボルを乗せるアプリアイコン形式。
+       ホーム画面・App Storeでの展開を想定。
+  ====================================================== -->
+  <div class="card">
+    <div class="card-header">
+      <div class="case-label">案 5</div>
+      <h2>アプリアイコン型（正方形）</h2>
+      <div class="concept">
+        濃青の正方形背景に白×琥珀のシンボルを乗せる、アプリアイコン専用形式。<br>
+        ホーム画面・ブラウザのfavicon・OGPアイコンに直接使える構成。
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="preview-section">
+        <div class="preview-box light">
+          <!-- 大サイズ表示 -->
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- 背景 -->
+            <rect width="80" height="80" rx="18" fill="#0A66C2"/>
+            <!-- 3本の平行な弧（共鳴リップル、白） -->
+            <path d="M 22 40 A 10 10 0 0 1 22 40" stroke="none"/>
+            <!-- 左から右に広がる弧 -->
+            <path d="M 16 25 A 20 20 0 0 0 16 55" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M 26 18 A 28 28 0 0 0 26 62" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+            <!-- 中央ノード（琥珀） -->
+            <circle cx="40" cy="40" r="8" fill="#B9791F"/>
+            <!-- 右側弧 -->
+            <path d="M 54 18 A 28 28 0 0 1 54 62" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+            <path d="M 64 25 A 20 20 0 0 1 64 55" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <!-- 中心白点 -->
+            <circle cx="40" cy="40" r="3" fill="white"/>
+          </svg>
+          <div class="preview-label">白背景</div>
+        </div>
+        <div class="preview-box dark" style="background:#1A2733;">
+          <!-- 濃紺背景でのアイコン表示（アイコン自体は同じ） -->
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <rect width="80" height="80" rx="18" fill="#0A66C2"/>
+            <path d="M 16 25 A 20 20 0 0 0 16 55" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M 26 18 A 28 28 0 0 0 26 62" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+            <circle cx="40" cy="40" r="8" fill="#B9791F"/>
+            <path d="M 54 18 A 28 28 0 0 1 54 62" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+            <path d="M 64 25 A 20 20 0 0 1 64 55" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <circle cx="40" cy="40" r="3" fill="white"/>
+          </svg>
+          <div class="preview-label" style="color:rgba(255,255,255,0.45);">濃紺（背景違い）</div>
+        </div>
+      </div>
+      <div class="size-row">
+        <div class="size-item">
+          <svg width="40" height="40" viewBox="0 0 80 80" fill="none">
+            <rect width="80" height="80" rx="18" fill="#0A66C2"/>
+            <path d="M 16 25 A 20 20 0 0 0 16 55" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M 26 18 A 28 28 0 0 0 26 62" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+            <circle cx="40" cy="40" r="8" fill="#B9791F"/>
+            <path d="M 54 18 A 28 28 0 0 1 54 62" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+            <path d="M 64 25 A 20 20 0 0 1 64 55" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <circle cx="40" cy="40" r="3" fill="white"/>
+          </svg>
+          <span class="size-label">ヘッダー用 40px</span>
+        </div>
+        <div class="size-item">
+          <svg width="32" height="32" viewBox="0 0 80 80" fill="none">
+            <rect width="80" height="80" rx="18" fill="#0A66C2"/>
+            <path d="M 16 25 A 20 20 0 0 0 16 55" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M 28 16 A 30 30 0 0 0 28 64" stroke="white" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.7"/>
+            <circle cx="40" cy="40" r="10" fill="#B9791F"/>
+            <path d="M 52 16 A 30 30 0 0 1 52 64" stroke="white" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.7"/>
+            <path d="M 64 25 A 20 20 0 0 1 64 55" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <circle cx="40" cy="40" r="4" fill="white"/>
+          </svg>
+          <span class="size-label">favicon 32px</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================
+       案6 — UIヘッダー用コンパクト横長型
+       シンボルを最小限に絞り、横長テキストと組み合わせる。
+       ナビバー・ヘッダーへの収まりを最優先した構成。
+  ====================================================== -->
+  <div class="card">
+    <div class="card-header">
+      <div class="case-label">案 6</div>
+      <h2>コンパクト横長型（UIヘッダー専用）</h2>
+      <div class="concept">
+        シンボルを最小単位（3点と1本の弧）に抑えた横長コンパクト型。<br>
+        高さ 36〜44px のヘッダーバーに収まることを最優先。サービス名は英略称「SCS」を添える。
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="preview-section">
+        <div class="preview-box light" style="padding: 20px 12px;">
+          <!-- 横長ロゴ（大サイズ） -->
+          <div style="display:flex; align-items:center; gap:10px;">
+            <!-- ミニシンボル（3ノード+アーク） -->
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- 背景正円（塗り） -->
+              <circle cx="18" cy="18" r="17" fill="#084E95"/>
+              <!-- アーク（白） -->
+              <path d="M 10 12 A 10 10 0 0 0 10 24" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <path d="M 16 8 A 14 14 0 0 0 16 28" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.65"/>
+              <!-- 中央ドット（琥珀） -->
+              <circle cx="24" cy="18" r="4.5" fill="#B9791F"/>
+              <circle cx="24" cy="18" r="2" fill="white"/>
+            </svg>
+            <!-- テキスト部 -->
+            <div style="display:flex; flex-direction:column; line-height:1.15;">
+              <div style="display:flex; align-items:baseline; gap:5px;">
+                <span style="font-size:16px; font-weight:700; color:#084E95; letter-spacing:-0.01em;">Synchronicity</span>
+                <span style="font-size:16px; font-weight:700; color:#B9791F; letter-spacing:-0.01em;">Systems</span>
+              </div>
+              <span style="font-size:8.5px; font-weight:600; letter-spacing:0.18em; color:#8A9BAB; text-transform:uppercase;">Enterprise Platform</span>
+            </div>
+          </div>
+          <div class="preview-label" style="margin-top:8px;">白背景</div>
+        </div>
+        <div class="preview-box dark" style="padding: 20px 12px;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+              <circle cx="18" cy="18" r="17" fill="#FFFFFF" opacity="0.15"/>
+              <path d="M 10 12 A 10 10 0 0 0 10 24" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <path d="M 16 8 A 14 14 0 0 0 16 28" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.65"/>
+              <circle cx="24" cy="18" r="4.5" fill="#F4C470"/>
+              <circle cx="24" cy="18" r="2" fill="#084E95"/>
+            </svg>
+            <div style="display:flex; flex-direction:column; line-height:1.15;">
+              <div style="display:flex; align-items:baseline; gap:5px;">
+                <span style="font-size:16px; font-weight:700; color:#FFFFFF; letter-spacing:-0.01em;">Synchronicity</span>
+                <span style="font-size:16px; font-weight:700; color:#F4C470; letter-spacing:-0.01em;">Systems</span>
+              </div>
+              <span style="font-size:8.5px; font-weight:600; letter-spacing:0.18em; color:rgba(255,255,255,0.45); text-transform:uppercase;">Enterprise Platform</span>
+            </div>
+          </div>
+          <div class="preview-label">濃紺反転</div>
+        </div>
+      </div>
+      <!-- ヘッダー実寸プレビュー -->
+      <div style="background:#FFFFFF; border:1px solid var(--border); border-radius:10px; overflow:hidden;">
+        <div style="
+          background:#FFFFFF;
+          border-bottom:1px solid #DDE3EA;
+          padding:0 20px;
+          height:52px;
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+        ">
+          <!-- ロゴ実寸 -->
+          <div style="display:flex; align-items:center; gap:8px;">
+            <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+              <circle cx="18" cy="18" r="17" fill="#084E95"/>
+              <path d="M 10 12 A 10 10 0 0 0 10 24" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <path d="M 16 8 A 14 14 0 0 0 16 28" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.65"/>
+              <circle cx="24" cy="18" r="4.5" fill="#B9791F"/>
+              <circle cx="24" cy="18" r="2" fill="white"/>
+            </svg>
+            <div style="line-height:1.15;">
+              <div style="display:flex; align-items:baseline; gap:4px;">
+                <span style="font-size:13px; font-weight:700; color:#084E95;">Synchronicity</span>
+                <span style="font-size:13px; font-weight:700; color:#B9791F;">Systems</span>
+              </div>
+              <span style="font-size:7.5px; font-weight:600; letter-spacing:0.16em; color:#8A9BAB; text-transform:uppercase;">Enterprise Platform</span>
+            </div>
+          </div>
+          <!-- ダミーナビ -->
+          <div style="display:flex; gap:16px; align-items:center;">
+            <span style="font-size:12px; color:#4E6070;">ホーム</span>
+            <span style="font-size:12px; color:#4E6070;">CRM</span>
+            <span style="font-size:12px; color:#4E6070;">請求</span>
+            <div style="width:28px; height:28px; border-radius:50%; background:#0A66C2; display:flex; align-items:center; justify-content:center;">
+              <span style="font-size:11px; font-weight:700; color:white;">M</span>
+            </div>
+          </div>
+        </div>
+        <div style="padding:12px 20px; background:#F2F5F8;">
+          <span style="font-size:11px; color:#8A9BAB;">UIヘッダー実寸プレビュー（高さ 52px）</span>
+        </div>
+      </div>
+      <!-- サイズ比較 -->
+      <div class="size-row">
+        <div class="size-item">
+          <div style="display:flex; align-items:center; gap:6px; height:40px;">
+            <svg width="24" height="24" viewBox="0 0 36 36" fill="none">
+              <circle cx="18" cy="18" r="17" fill="#084E95"/>
+              <path d="M 10 12 A 10 10 0 0 0 10 24" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <path d="M 16 8 A 14 14 0 0 0 16 28" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.65"/>
+              <circle cx="24" cy="18" r="4.5" fill="#B9791F"/>
+              <circle cx="24" cy="18" r="2" fill="white"/>
+            </svg>
+            <span style="font-size:12px; font-weight:700; color:#084E95;">Synchronicity <span style="color:#B9791F;">Systems</span></span>
+          </div>
+          <span class="size-label">ヘッダー用</span>
+        </div>
+        <div class="size-item">
+          <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+            <circle cx="18" cy="18" r="17" fill="#084E95"/>
+            <path d="M 10 12 A 10 10 0 0 0 10 24" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M 16 8 A 14 14 0 0 0 16 28" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.65"/>
+            <circle cx="24" cy="18" r="5" fill="#B9791F"/>
+            <circle cx="24" cy="18" r="2.5" fill="white"/>
+          </svg>
+          <span class="size-label">favicon 32px</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /grid -->
+
+<!-- フッター -->
+<div style="max-width:960px; margin:48px auto 0; padding-top:24px; border-top:1px solid var(--border); text-align:center; color:var(--text-mute); font-size:12px; line-height:1.8;">
+  シンクロニシティシステムズ / Synchronicity Systems — ロゴ提案 6案<br>
+  案1エンタープライズブルー準拠 &nbsp;|&nbsp; フラットカラー（グラデーションなし）&nbsp;|&nbsp; インラインSVG<br>
+  パレット: #0A66C2 / #084E95 / #B9791F / #1A2733
+</div>
+
+</body>
+</html>
