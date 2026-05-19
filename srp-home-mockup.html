@@ -15,13 +15,14 @@
     --brand-bg: #E2E8F0;
     --accent: #D97706;
     --bg: #FAFAF9;
-    --card: #ffffff;
+    --card: #EEF0F2;
+    --surface: #EEF0F2;
+    --soon-bg: #E4E6E8;
     --text: #1C1917;
     --text-soft: #57534E;
     --text-mute: #78716C;
     --border: #E7E5E4;
     --border-soft: #F5F5F4;
-    --soon-bg: #F5F5F4;
     --soon-text: #78716C;
     --success: #7BA428;
     --warning: #D97706;
@@ -220,7 +221,7 @@
 
   /* KPIバー */
   .kpi-bar {
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 16px 20px;
@@ -444,7 +445,7 @@
   }
   .modal-overlay.show { display: flex; }
   .modal {
-    background: #fff;
+    background: var(--surface);
     border-radius: 8px;
     padding: 28px;
     max-width: 420px;

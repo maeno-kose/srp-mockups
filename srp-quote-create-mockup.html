@@ -15,7 +15,8 @@
     --brand-bg: #E2E8F0;
     --accent: #D97706;
     --bg: #FAFAF9;
-    --card: #ffffff;
+    --card: #EEF0F2;
+    --surface: #EEF0F2;
     --text: #1C1917;
     --text-soft: #57534E;
     --text-mute: #78716C;
@@ -259,7 +260,7 @@
 
   /* 左：入力フォーム */
   .form-panel {
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 20px;
@@ -307,7 +308,7 @@
     font-size: 13px;
     font-family: inherit;
     color: var(--text);
-    background: #fff;
+    background: var(--surface);
     transition: all 0.15s;
   }
   .input:focus, .select:focus, .textarea:focus {
@@ -477,7 +478,7 @@
     font-weight: 600;
     font-size: 13px;
     font-family: inherit;
-    background: #fff;
+    background: var(--surface);
     color: var(--text);
     display: flex;
     align-items: center;
@@ -497,7 +498,7 @@
     box-shadow: 0 4px 14px rgba(44,82,130,.22);
     transform: translateY(-1px);
   }
-  .btn-secondary { background: #fff; color: var(--text); }
+  .btn-secondary { background: var(--surface); color: var(--text); }
 
   /* 右：A4プレビュー */
   .preview-panel {
@@ -514,7 +515,7 @@
     max-width: 720px;
     margin-bottom: 14px;
     padding: 8px 14px;
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
   }
@@ -541,7 +542,7 @@
   .zoom-btn {
     width: 26px; height: 26px;
     border: 1px solid var(--border);
-    background: #fff;
+    background: var(--surface);
     border-radius: 6px;
     cursor: pointer;
     color: var(--text-soft);
@@ -811,7 +812,7 @@
   .convert-cta {
     margin-top: 28px;
     padding: 18px 22px;
-    background: #fff;
+    background: var(--surface);
     border: 1px dashed var(--border);
     border-radius: 8px;
     display: flex;
@@ -841,7 +842,7 @@
     color: var(--text-soft);
   }
   .convert-cta .btn {
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--brand-light);
     color: var(--brand-dark);
   }
