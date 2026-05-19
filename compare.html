@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>SRP モック before / after 比較</title>
+<style>
+  :root { --primary:#2C5282; --ink:#1C1917; --sub:#57534E; --border:#E7E5E4; --bg:#FAFAF9; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Inter Tight","Noto Sans JP",-apple-system,Meiryo,sans-serif;background:var(--bg);color:var(--ink);}
+  header{background:#1F4E79;color:#fff;padding:16px 20px;}
+  header h1{font-size:16px;}
+  header p{font-size:12px;color:#cdd6e2;margin-top:3px;}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;padding:12px 20px;background:#fff;border-bottom:1px solid var(--border);}
+  .tabs button{font:inherit;font-size:12px;padding:6px 12px;border:1px solid var(--border);
+    background:#fff;color:var(--ink);border-radius:6px;cursor:pointer;}
+  .tabs button.on{background:var(--primary);color:#fff;border-color:var(--primary);}
+  .panes{display:flex;gap:12px;padding:12px 20px;}
+  .pane{flex:1;min-width:0;}
+  .lbl{font-size:12px;font-weight:600;padding:6px 10px;border-radius:6px 6px 0 0;color:#fff;}
+  .lbl.b{background:#9A6B4A;}
+  .lbl.b small{color:#f0e2d6;font-weight:400;}
+  .lbl.a{background:var(--primary);}
+  .lbl.a small{color:#cdd6e2;font-weight:400;}
+  iframe{width:100%;height:78vh;border:1px solid var(--border);border-top:none;background:#fff;
+    border-radius:0 0 6px 6px;}
+  .note{font-size:12px;color:var(--sub);padding:0 20px 20px;line-height:1.7;}
+  @media(max-width:780px){.panes{flex-direction:column;}}
+</style>
+</head>
+<body>
+<header>
+  <h1>SRP 画面モック — 変更前 / 変更後 比較</h1>
+  <p>左：当初のAIデフォルト配色（indigo+pink+グラデ）　右：正式カラーシステム v1.0（Steel Blue #2C5282）</p>
+</header>
+<div class="tabs" id="tabs"></div>
+<div class="panes">
+  <div class="pane">
+    <div class="lbl b">◀ 変更前　<small>indigo #6366F1 + pink #ec4899・グラデ59箇所・角丸大</small></div>
+    <iframe id="before"></iframe>
+  </div>
+  <div class="pane">
+    <div class="lbl a">変更後 ▶　<small>Steel Blue #2C5282・Stone系グレー・グラデ0・角丸≤8px</small></div>
+    <iframe id="after"></iframe>
+  </div>
+</div>
+<div class="note">
+  主な差異：①主役色 indigo#6366F1 → Steel Blue#2C5282（彩度を落とした実務的な青）　②pink#ec4899 を全廃 → Amber#D97706
+  ③グラデーション59箇所 → 全廃（フラット）　④寒色slateグレー → 暖色寄りStone系グレー　⑤角丸 rounded-2xl/3xl → カード8px・ボタン6px
+  ⑥グロー影・glassmorphism を排除　⑦フォントを Inter Tight + Noto Sans JP に　※ロゴは現状維持
+</div>
+<script>
+  var screens=[
+    ["srp-home-mockup.html","ホーム"],
+    ["srp-account-detail-mockup.html","お客様詳細"],
+    ["srp-invoice-list-mockup.html","請求書一覧"],
+    ["srp-quote-create-mockup.html","見積書作成"],
+    ["srp-login-mockup.html","ログイン"],
+    ["srp-signup-mockup.html","サインアップ"],
+    ["srp-empty-accounts-mockup.html","空：お客様"],
+    ["srp-empty-deals-mockup.html","空：商談"],
+    ["srp-empty-invoices-mockup.html","空：請求書"]
+  ];
+  var tabs=document.getElementById("tabs"),
+      bf=document.getElementById("before"),
+      af=document.getElementById("after");
+  function show(i){
+    bf.src="before/"+screens[i][0];
+    af.src=screens[i][0];
+    var bs=tabs.children;
+    for(var k=0;k<bs.length;k++){bs[k].className=(k===i)?"on":"";}
+  }
+  screens.forEach(function(s,i){
+    var b=document.createElement("button");
+    b.textContent=s[1];
+    b.onclick=function(){show(i);};
+    tabs.appendChild(b);
+  });
+  show(0);
+</script>
+</body>
+</html>

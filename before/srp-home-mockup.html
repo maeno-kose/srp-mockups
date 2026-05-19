@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>シンクロニシティシステムズ - ホーム</title>
+<style>
+  :root {
+    --brand: #6366f1;
+    --brand-light: #818cf8;
+    --brand-dark: #4f46e5;
+    --bg: #f7f8fc;
+    --bg-grad-1: #eef2ff;
+    --bg-grad-2: #fdf4ff;
+    --card: #ffffff;
+    --text: #1f2937;
+    --text-soft: #6b7280;
+    --text-mute: #9ca3af;
+    --border: #e5e7eb;
+    --border-soft: #f3f4f6;
+    --soon-bg: #f9fafb;
+    --soon-text: #9ca3af;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+    --shadow-hover: 0 4px 12px rgba(99,102,241,0.12), 0 2px 4px rgba(0,0,0,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
+                 "Hiragino Sans", "Yu Gothic UI", Meiryo, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ヘッダー */
+  .header {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .logo-mark {
+    flex-shrink: 0;
+    display: block;
+  }
+  .logo-text-wrap {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+  .logo-text {
+    font-weight: 700;
+    font-size: 15px;
+    background: linear-gradient(135deg, var(--brand), #ec4899);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: -0.005em;
+  }
+  .logo-sub {
+    font-size: 9px;
+    color: var(--text-mute);
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    margin-top: 1px;
+  }
+  @media (max-width: 480px) {
+    .logo-text { font-size: 14px; }
+    .logo-sub { display: none; }
+  }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .search-trigger {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-soft);
+    font-size: 13px;
+    cursor: pointer;
+    min-width: 240px;
+    transition: border-color 0.15s;
+  }
+  .search-trigger:hover { border-color: var(--brand-light); }
+  .search-trigger .kbd {
+    margin-left: auto;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 11px;
+    font-family: monospace;
+  }
+  .icon-btn {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-soft);
+    font-size: 18px;
+    position: relative;
+    transition: background 0.15s;
+  }
+  .icon-btn:hover { background: var(--bg); }
+  .badge-dot {
+    position: absolute;
+    top: 8px; right: 8px;
+    width: 8px; height: 8px;
+    background: #ef4444;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+  .avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--brand), #ec4899);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  /* メイン */
+  .main {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 32px;
+  }
+
+  /* グリーティング */
+  .greeting {
+    margin-bottom: 24px;
+  }
+  .greeting h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .greeting .meta {
+    color: var(--text-soft);
+    font-size: 13px;
+  }
+
+  /* AIアシスタント常駐バー */
+  .ai-bar {
+    background: linear-gradient(135deg, var(--bg-grad-1) 0%, var(--bg-grad-2) 100%);
+    border: 1px solid #e0e7ff;
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .ai-bar:hover {
+    border-color: var(--brand-light);
+    box-shadow: 0 4px 16px rgba(99,102,241,0.1);
+    transform: translateY(-1px);
+  }
+  .ai-bar-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--brand), #ec4899);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .ai-bar-content { flex: 1; }
+  .ai-bar-label {
+    font-size: 11px;
+    color: var(--brand-dark);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+  }
+  .ai-bar-prompt {
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .ai-bar-prompt .rotate-text {
+    color: var(--brand);
+    font-weight: 600;
+  }
+  .ai-bar-cta {
+    background: var(--brand);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  /* KPIバー */
+  .kpi-bar {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 32px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .kpi-item {
+    text-align: center;
+    padding: 0 12px;
+    border-right: 1px solid var(--border-soft);
+    cursor: pointer;
+    transition: background 0.15s;
+    border-radius: 6px;
+  }
+  .kpi-item:last-child { border-right: none; }
+  .kpi-item:hover { background: var(--bg); }
+  .kpi-label {
+    font-size: 11px;
+    color: var(--text-soft);
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .kpi-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .kpi-value small {
+    font-size: 11px;
+    color: var(--text-mute);
+    font-weight: 500;
+    margin-left: 4px;
+  }
+
+  /* セクション */
+  .section {
+    margin-bottom: 28px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .section-icon {
+    font-size: 18px;
+    margin-right: 10px;
+  }
+  .section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .section-count {
+    font-size: 12px;
+    color: var(--text-mute);
+    margin-left: 8px;
+  }
+  .section-toggle {
+    margin-left: auto;
+    color: var(--text-mute);
+    font-size: 12px;
+    transition: transform 0.2s;
+  }
+  .section.collapsed .section-toggle { transform: rotate(-90deg); }
+  .section.collapsed .app-grid { display: none; }
+
+  /* アプリグリッド */
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  .app-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.18s;
+    position: relative;
+    overflow: hidden;
+  }
+  .app-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--brand-light);
+  }
+  .app-card-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: var(--bg-grad-1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+  .app-card-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .app-card-desc {
+    font-size: 11px;
+    color: var(--text-soft);
+    margin-bottom: 10px;
+    line-height: 1.5;
+    min-height: 32px;
+  }
+  .app-card-stat {
+    font-size: 12px;
+    color: var(--brand);
+    font-weight: 600;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-soft);
+  }
+  .app-card-stat .stat-trend {
+    color: var(--success);
+    margin-left: 4px;
+    font-size: 11px;
+  }
+
+  /* Soonカード */
+  .app-card.soon {
+    background: var(--soon-bg);
+    cursor: pointer;
+  }
+  .app-card.soon .app-card-icon {
+    background: var(--border-soft);
+    opacity: 0.6;
+  }
+  .app-card.soon .app-card-name,
+  .app-card.soon .app-card-desc {
+    color: var(--soon-text);
+  }
+  .app-card.soon:hover {
+    border-color: var(--text-mute);
+    transform: translateY(-1px);
+  }
+  .soon-badge {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: #fff;
+    color: var(--text-soft);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    letter-spacing: 0.03em;
+  }
+  .soon-badge.phase-2 { color: #ea580c; border-color: #fed7aa; }
+  .soon-badge.phase-3 { color: #2563eb; border-color: #bfdbfe; }
+  .soon-badge.future { color: #9ca3af; }
+
+  /* MVPバッジ */
+  .mvp-badge {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: linear-gradient(135deg, var(--success), #34d399);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 10px;
+    letter-spacing: 0.05em;
+  }
+
+  /* カテゴリ別アクセント色（左ボーダー） */
+  .app-grid.sales .app-card:not(.soon) .app-card-icon { background: #fef3c7; }
+  .app-grid.info .app-card:not(.soon) .app-card-icon { background: #dbeafe; }
+  .app-grid.ai .app-card:not(.soon) .app-card-icon { background: linear-gradient(135deg, #fce7f3, #e0e7ff); }
+  .app-grid.system .app-card:not(.soon) .app-card-icon { background: #f3f4f6; }
+
+  /* 拡張パックセクション */
+  .extension-section {
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px dashed var(--border);
+  }
+  .extension-intro {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 1px solid #fde68a;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: #854d0e;
+    line-height: 1.5;
+  }
+
+  /* フッター */
+  .footer {
+    margin-top: 60px;
+    padding: 20px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--text-mute);
+    font-size: 12px;
+  }
+  .footer a {
+    color: var(--brand);
+    text-decoration: none;
+    margin: 0 8px;
+  }
+
+  /* モーダル */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15,23,42,0.4);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    animation: modalIn 0.2s ease-out;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .modal h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  .modal-icon {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    background: var(--bg-grad-1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 16px;
+  }
+  .modal-desc {
+    color: var(--text-soft);
+    font-size: 13px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .modal-phase {
+    background: var(--bg);
+    padding: 10px 14px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 16px;
+    font-size: 13px;
+  }
+  .modal-phase strong { color: var(--brand-dark); }
+  .modal-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .btn {
+    flex: 1;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.15s;
+  }
+  .btn-primary {
+    background: var(--brand);
+    color: #fff;
+  }
+  .btn-primary:hover { background: var(--brand-dark); }
+  .btn-secondary {
+    background: var(--bg);
+    color: var(--text);
+  }
+  .btn-secondary:hover { background: var(--border); }
+
+  /* レスポンシブ */
+  @media (max-width: 768px) {
+    .main { padding: 16px; }
+    .header { padding: 12px 16px; }
+    .search-trigger { display: none; }
+    .greeting h1 { font-size: 20px; }
+    .ai-bar { flex-direction: column; align-items: flex-start; padding: 16px; }
+    .ai-bar-cta { width: 100%; text-align: center; }
+    .kpi-bar { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .kpi-item { border-right: none; padding: 8px; }
+    .app-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header class="header">
+  <div class="logo" onclick="location.reload()">
+    <svg class="logo-mark" width="28" height="28" viewBox="0 0 36 36" aria-label="シンクロニシティシステムズ">
+      <defs>
+        <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#6366f1"/>
+          <stop offset="100%" stop-color="#ec4899"/>
+        </linearGradient>
+      </defs>
+      <line x1="18" y1="6" x2="6" y2="22" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.6"/>
+      <line x1="18" y1="6" x2="30" y2="22" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.6"/>
+      <line x1="6" y1="22" x2="18" y2="30" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.6"/>
+      <line x1="30" y1="22" x2="18" y2="30" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.6"/>
+      <line x1="6" y1="22" x2="30" y2="22" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.6"/>
+      <line x1="18" y1="6" x2="18" y2="30" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.4"/>
+      <circle cx="18" cy="6" r="3" fill="url(#logoGrad)"/>
+      <circle cx="6" cy="22" r="3" fill="url(#logoGrad)"/>
+      <circle cx="30" cy="22" r="3" fill="url(#logoGrad)"/>
+      <circle cx="18" cy="30" r="3" fill="url(#logoGrad)"/>
+    </svg>
+    <div class="logo-text-wrap">
+      <div class="logo-text">シンクロニシティシステムズ</div>
+      <div class="logo-sub">SYNCHRONICITY SYSTEMS</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="search-trigger" onclick="alert('⌘K グローバル検索（モック）')">
+      <span>🔍</span>
+      <span>取引先・タスクなど検索</span>
+      <span class="kbd">⌘K</span>
+    </div>
+    <button class="icon-btn" title="通知">🔔<span class="badge-dot"></span></button>
+    <div class="avatar" title="前野晃征">K</div>
+  </div>
+</header>
+
+<!-- メイン -->
+<main class="main">
+
+  <!-- グリーティング -->
+  <div class="greeting">
+    <h1>おかえりなさい、こーせーさん 👋</h1>
+    <div class="meta">株式会社ideal ／ 2026年5月18日（月）</div>
+  </div>
+
+  <!-- AIアシスタント常駐バー -->
+  <div class="ai-bar" onclick="alert('AIアシスタントを起動（モック）')">
+    <div class="ai-bar-icon">🤖</div>
+    <div class="ai-bar-content">
+      <div class="ai-bar-label">AIアシスタントに聞いてみる</div>
+      <div class="ai-bar-prompt"><span class="rotate-text" id="rotateText">「請求書を作って」</span></div>
+    </div>
+    <div class="ai-bar-cta">話しかける →</div>
+  </div>
+
+  <!-- KPIバー -->
+  <div class="kpi-bar">
+    <div class="kpi-item">
+      <div class="kpi-label">📝 未完タスク</div>
+      <div class="kpi-value">5<small>件</small></div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-label">💼 進行中の商談</div>
+      <div class="kpi-value">3<small>件</small></div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-label">📞 今週の活動</div>
+      <div class="kpi-value">12<small>件</small></div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-label">🔔 未読のお知らせ</div>
+      <div class="kpi-value">2<small>件</small></div>
+    </div>
+  </div>
+
+  <!-- アプリカタログ -->
+
+  <!-- 営業・顧客 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-icon">💼</span>
+      <span class="section-title">営業・顧客</span>
+      <span class="section-count">（4アプリ）</span>
+      <span class="section-toggle">▾</span>
+    </div>
+    <div class="app-grid sales">
+      <div class="app-card" onclick="alert('お客様・取引先（CRM）を開く')">
+        <span class="mvp-badge">MVP</span>
+        <div class="app-card-icon">💼</div>
+        <div class="app-card-name">お客様・取引先</div>
+        <div class="app-card-desc">取引先・担当者・商談・活動履歴を一元管理</div>
+        <div class="app-card-stat">12社 / 3商談 <span class="stat-trend">↑ 2件</span></div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('見積・請求書','📄','請求書発行・PDF・メール送信','Phase 2','phase-2')">
+        <span class="soon-badge phase-2">Phase 2</span>
+        <div class="app-card-icon">📄</div>
+        <div class="app-card-name">見積・請求書</div>
+        <div class="app-card-desc">見積書・請求書発行・PDF・メール送信</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('入金管理','💰','入金消込・未回収アラート','Phase 2','phase-2')">
+        <span class="soon-badge phase-2">Phase 2</span>
+        <div class="app-card-icon">💰</div>
+        <div class="app-card-name">入金管理</div>
+        <div class="app-card-desc">入金消込・未回収アラート</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('契約管理','📑','契約書ドラフト・電子署名・更新','Phase 3','phase-3')">
+        <span class="soon-badge phase-3">Phase 3</span>
+        <div class="app-card-icon">📑</div>
+        <div class="app-card-name">契約管理</div>
+        <div class="app-card-desc">契約書ドラフト・電子署名・更新リマインド</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 情報・ナレッジ -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-icon">💬</span>
+      <span class="section-title">情報・ナレッジ</span>
+      <span class="section-count">（5アプリ）</span>
+      <span class="section-toggle">▾</span>
+    </div>
+    <div class="app-grid info">
+      <div class="app-card" onclick="alert('日報・週報を開く')">
+        <span class="mvp-badge">MVP</span>
+        <div class="app-card-icon">📝</div>
+        <div class="app-card-name">日報・週報</div>
+        <div class="app-card-desc">個人・部署の日報、自動集約</div>
+        <div class="app-card-stat">今日 0件 / 今週 4件</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('メモ・Wiki','📚','社内ナレッジ・議事録・手順書','Phase 2','phase-2')">
+        <span class="soon-badge phase-2">Phase 2</span>
+        <div class="app-card-icon">📚</div>
+        <div class="app-card-name">メモ・Wiki</div>
+        <div class="app-card-desc">社内ナレッジ・議事録・手順書</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('ファイル','📁','添付・共有・バージョン管理','Phase 2','phase-2')">
+        <span class="soon-badge phase-2">Phase 2</span>
+        <div class="app-card-icon">📁</div>
+        <div class="app-card-name">ファイル</div>
+        <div class="app-card-desc">添付・共有・バージョン管理</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('メール送信','✉️','請求書送付・お知らせ・通知メール','Phase 2','phase-2')">
+        <span class="soon-badge phase-2">Phase 2</span>
+        <div class="app-card-icon">✉️</div>
+        <div class="app-card-name">メール送信</div>
+        <div class="app-card-desc">請求書送付・お知らせ・通知メール</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('メッセージ・チャット','💬','社内コミュニケーション','Phase 3','phase-3')">
+        <span class="soon-badge phase-3">Phase 3</span>
+        <div class="app-card-icon">💬</div>
+        <div class="app-card-name">メッセージ</div>
+        <div class="app-card-desc">社内のリアルタイムチャット</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI・自動化 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-icon">🤖</span>
+      <span class="section-title">AI・自動化</span>
+      <span class="section-count">（3アプリ）</span>
+      <span class="section-toggle">▾</span>
+    </div>
+    <div class="app-grid ai">
+      <div class="app-card" onclick="alert('AIアシスタントを起動')">
+        <span class="mvp-badge">MVP</span>
+        <div class="app-card-icon">🤖</div>
+        <div class="app-card-name">AIアシスタント</div>
+        <div class="app-card-desc">全データを横串で参照・操作ガイド</div>
+        <div class="app-card-stat">いつでも対話可能</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('インポート/エクスポート','📥','CSV取込・他SaaSデータ移行','Phase 2','phase-2')">
+        <span class="soon-badge phase-2">Phase 2</span>
+        <div class="app-card-icon">📥</div>
+        <div class="app-card-name">取込・書出し</div>
+        <div class="app-card-desc">CSV取込・他SaaSデータ移行</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('自動でやってくれる仕組み','⚡','商談獲得→請求書下書きなど','Phase 3','phase-3')">
+        <span class="soon-badge phase-3">Phase 3</span>
+        <div class="app-card-icon">⚡</div>
+        <div class="app-card-name">自動でやってくれる仕組み</div>
+        <div class="app-card-desc">例：商談獲得 → 請求書下書き作成</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- システム -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-icon">⚙️</span>
+      <span class="section-title">システム</span>
+      <span class="section-count">（3アプリ）</span>
+      <span class="section-toggle">▾</span>
+    </div>
+    <div class="app-grid system">
+      <div class="app-card" onclick="alert('設定を開く')">
+        <span class="mvp-badge">MVP</span>
+        <div class="app-card-icon">⚙️</div>
+        <div class="app-card-name">設定</div>
+        <div class="app-card-desc">組織情報・メンバー招待・権限</div>
+        <div class="app-card-stat">5名 / 3ロール</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('通知センター','🔔','アプリ横断の通知ハブ','Phase 2','phase-2')">
+        <span class="soon-badge phase-2">Phase 2</span>
+        <div class="app-card-icon">🔔</div>
+        <div class="app-card-name">通知センター</div>
+        <div class="app-card-desc">アプリ横断の通知ハブ</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('監査ログ','📜','操作履歴','Phase 3','phase-3')">
+        <span class="soon-badge phase-3">Phase 3</span>
+        <div class="app-card-icon">📜</div>
+        <div class="app-card-name">監査ログ</div>
+        <div class="app-card-desc">誰がいつ何をしたかの履歴</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 業務・タスク (折りたたみ) -->
+  <section class="section collapsed">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-icon">✅</span>
+      <span class="section-title">業務・タスク</span>
+      <span class="section-count">（4アプリ・すべて開発予定）</span>
+      <span class="section-toggle">▾</span>
+    </div>
+    <div class="app-grid">
+      <div class="app-card soon" onclick="showSoon('タスク','✅','個人・チームのTODO','Phase 2','phase-2')">
+        <span class="soon-badge phase-2">Phase 2</span>
+        <div class="app-card-icon">✅</div>
+        <div class="app-card-name">タスク</div>
+        <div class="app-card-desc">個人・チームのTODO・期限・担当</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('プロジェクト','📁','マイルストーン管理','Phase 3','phase-3')">
+        <span class="soon-badge phase-3">Phase 3</span>
+        <div class="app-card-icon">📁</div>
+        <div class="app-card-name">プロジェクト</div>
+        <div class="app-card-desc">タスクをグルーピング、マイルストーン</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('カレンダー','📅','予定・会議・リマインダー','Phase 3','phase-3')">
+        <span class="soon-badge phase-3">Phase 3</span>
+        <div class="app-card-icon">📅</div>
+        <div class="app-card-name">カレンダー</div>
+        <div class="app-card-desc">予定・会議・リマインダー</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('目標・成果（OKR）','🎯','四半期目標と進捗','Phase 3','phase-3')">
+        <span class="soon-badge phase-3">Phase 3</span>
+        <div class="app-card-icon">🎯</div>
+        <div class="app-card-name">目標・成果</div>
+        <div class="app-card-desc">四半期目標と進捗、全社共有</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 経理・財務 (折りたたみ) -->
+  <section class="section collapsed">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-icon">💰</span>
+      <span class="section-title">経理・財務</span>
+      <span class="section-count">（4アプリ・すべて開発予定）</span>
+      <span class="section-toggle">▾</span>
+    </div>
+    <div class="app-grid">
+      <div class="app-card soon" onclick="showSoon('経費精算','🧾','立替経費・承認フロー','Phase 2','phase-2')">
+        <span class="soon-badge phase-2">Phase 2</span>
+        <div class="app-card-icon">🧾</div>
+        <div class="app-card-name">経費精算</div>
+        <div class="app-card-desc">領収書アップ・立替・承認</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('売上ダッシュボード','📊','月次・年次・取引先別','Phase 2','phase-2')">
+        <span class="soon-badge phase-2">Phase 2</span>
+        <div class="app-card-icon">📊</div>
+        <div class="app-card-name">売上ダッシュボード</div>
+        <div class="app-card-desc">月次・年次・取引先別</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('キャッシュフロー予測','💹','残高・入出金予定','Phase 3','phase-3')">
+        <span class="soon-badge phase-3">Phase 3</span>
+        <div class="app-card-icon">💹</div>
+        <div class="app-card-name">資金繰り予測</div>
+        <div class="app-card-desc">残高・入出金予定・ランウェイ</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('予算管理','💵','部門・項目別予算と実績','Future','future')">
+        <span class="soon-badge future">Future</span>
+        <div class="app-card-icon">💵</div>
+        <div class="app-card-name">予算管理</div>
+        <div class="app-card-desc">部門・項目別予算と実績比較</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 人事・組織 (折りたたみ) -->
+  <section class="section collapsed">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-icon">👥</span>
+      <span class="section-title">人事・組織</span>
+      <span class="section-count">（5アプリ・すべて開発予定）</span>
+      <span class="section-toggle">▾</span>
+    </div>
+    <div class="app-grid">
+      <div class="app-card soon" onclick="showSoon('メンバー名簿','👤','社員・業務委託の情報','Phase 2','phase-2')">
+        <span class="soon-badge phase-2">Phase 2</span>
+        <div class="app-card-icon">👤</div>
+        <div class="app-card-name">メンバー名簿</div>
+        <div class="app-card-desc">社員・業務委託の情報、組織図</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('勤怠','⏰','出退勤・残業・休暇申請','Phase 3','phase-3')">
+        <span class="soon-badge phase-3">Phase 3</span>
+        <div class="app-card-icon">⏰</div>
+        <div class="app-card-name">勤怠</div>
+        <div class="app-card-desc">出退勤・残業・休暇申請</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('評価・1on1','⭐','目標・評価・1on1記録','Phase 3','phase-3')">
+        <span class="soon-badge phase-3">Phase 3</span>
+        <div class="app-card-icon">⭐</div>
+        <div class="app-card-name">評価・1on1</div>
+        <div class="app-card-desc">目標・評価・1on1記録</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('採用','🧲','求人・応募者・選考','Future','future')">
+        <span class="soon-badge future">Future</span>
+        <div class="app-card-icon">🧲</div>
+        <div class="app-card-name">採用</div>
+        <div class="app-card-desc">求人・応募者・選考管理</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('給与（連携）','💴','freee/MFへエクスポート','Future','future')">
+        <span class="soon-badge future">Future</span>
+        <div class="app-card-icon">💴</div>
+        <div class="app-card-name">給与</div>
+        <div class="app-card-desc">freee/MF給与へエクスポート</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 経営・KPI (折りたたみ) -->
+  <section class="section collapsed">
+    <div class="section-header" onclick="toggleSection(this)">
+      <span class="section-icon">📊</span>
+      <span class="section-title">経営・KPI</span>
+      <span class="section-count">（4アプリ・スタートアップ特化）</span>
+      <span class="section-toggle">▾</span>
+    </div>
+    <div class="app-grid">
+      <div class="app-card soon" onclick="showSoon('経営ダッシュボード','📈','売上・コスト・KPI集約','Phase 3','phase-3')">
+        <span class="soon-badge phase-3">Phase 3</span>
+        <div class="app-card-icon">📈</div>
+        <div class="app-card-name">経営ダッシュボード</div>
+        <div class="app-card-desc">売上・コスト・KPIを一画面で</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('投資家向けレポート','📋','月次・四半期、自動生成','Phase 3','phase-3')">
+        <span class="soon-badge phase-3">Phase 3</span>
+        <div class="app-card-icon">📋</div>
+        <div class="app-card-name">投資家向けレポート</div>
+        <div class="app-card-desc">月次・四半期の定型レポート</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('株主・株式の管理','📜','Cap Table・SO管理','Future','future')">
+        <span class="soon-badge future">Future</span>
+        <div class="app-card-icon">📜</div>
+        <div class="app-card-name">株主・株式の管理</div>
+        <div class="app-card-desc">株主構成・種類株・ストックオプション</div>
+      </div>
+      <div class="app-card soon" onclick="showSoon('取締役会・株主総会','🏛️','議事録・決議・出席記録','Future','future')">
+        <span class="soon-badge future">Future</span>
+        <div class="app-card-icon">🏛️</div>
+        <div class="app-card-name">取締役会・株主総会</div>
+        <div class="app-card-desc">議事録・決議事項・出席記録</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 拡張パック -->
+  <div class="extension-section">
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">🔌</span>
+        <span class="section-title">拡張パック</span>
+        <span class="section-count">（業種に応じて有効化）</span>
+        <span class="section-toggle">▾</span>
+      </div>
+      <div class="extension-intro">
+        💡 コア機能ではないが、業種・業態に応じて後から追加できるオプション。例えば物販業の方は「物販パック」をONにすると、商品マスタや在庫管理が使えるようになります。
+      </div>
+      <div class="app-grid">
+        <div class="app-card soon" onclick="showSoon('物販パック','📦','商品マスタ・在庫・発注','Phase 3','phase-3')">
+          <span class="soon-badge phase-3">Phase 3</span>
+          <div class="app-card-icon">📦</div>
+          <div class="app-card-name">物販パック</div>
+          <div class="app-card-desc">商品・在庫・発注（物販・卸・小売・製造業向け）</div>
+        </div>
+        <div class="app-card soon" onclick="showSoon('マーケパック','📣','メール配信・LP分析・MA','Future','future')">
+          <span class="soon-badge future">Future</span>
+          <div class="app-card-icon">📣</div>
+          <div class="app-card-name">マーケパック</div>
+          <div class="app-card-desc">メール配信・LP分析・MA（B2C向け）</div>
+        </div>
+        <div class="app-card soon" onclick="showSoon('工数管理パック','⏱️','案件別工数集計・原価計算','Future','future')">
+          <span class="soon-badge future">Future</span>
+          <div class="app-card-icon">⏱️</div>
+          <div class="app-card-name">工数管理パック</div>
+          <div class="app-card-desc">案件別工数集計・原価計算（コンサル・士業・制作向け）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- フッター -->
+  <div class="footer">
+    <div>シンクロニシティシステムズ v0.2 ホーム画面モックアップ</div>
+    <div style="margin-top: 6px;">
+      <a href="#" onclick="return false;">ヘルプ</a>・
+      <a href="#" onclick="return false;">フィードバック</a>・
+      <a href="#" onclick="return false;">設定</a>
+    </div>
+  </div>
+
+</main>
+
+<!-- Soonモーダル -->
+<div class="modal-overlay" id="soonModal" onclick="if(event.target===this) closeModal()">
+  <div class="modal">
+    <div class="modal-icon" id="modalIcon">📦</div>
+    <h3 id="modalTitle" style="text-align: center;">アプリ名</h3>
+    <div class="modal-desc" id="modalDesc">説明</div>
+    <div class="modal-phase">リリース予定：<strong id="modalPhase">Phase 2</strong></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">閉じる</button>
+      <button class="btn btn-primary" onclick="sendInterest()">関心ありを送る ✋</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // セクション折りたたみ
+  function toggleSection(header) {
+    const section = header.closest('.section');
+    section.classList.toggle('collapsed');
+  }
+  document.querySelectorAll('.section:not(.collapsed) .section-header').forEach(h => {
+    h.addEventListener('click', () => toggleSection(h));
+  });
+
+  // AIバーのテキスト回転
+  const prompts = [
+    '「請求書を作って」',
+    '「先月の売上は？」',
+    '「次は何すればいい？」',
+    '「○○商事の最新状況は？」',
+    '「今週の予定をまとめて」'
+  ];
+  let pIdx = 0;
+  setInterval(() => {
+    pIdx = (pIdx + 1) % prompts.length;
+    const el = document.getElementById('rotateText');
+    el.style.opacity = '0';
+    setTimeout(() => {
+      el.textContent = prompts[pIdx];
+      el.style.opacity = '1';
+    }, 200);
+  }, 2500);
+  const rotateEl = document.getElementById('rotateText');
+  rotateEl.style.transition = 'opacity 0.2s';
+
+  // Soonモーダル
+  function showSoon(name, icon, desc, phase, phaseClass) {
+    document.getElementById('modalTitle').textContent = name;
+    document.getElementById('modalIcon').textContent = icon;
+    document.getElementById('modalDesc').textContent = desc;
+    document.getElementById('modalPhase').textContent = phase;
+    document.getElementById('soonModal').classList.add('show');
+  }
+  function closeModal() {
+    document.getElementById('soonModal').classList.remove('show');
+  }
+  function sendInterest() {
+    alert('「関心あり」を記録しました！ご要望は優先順位の決定に活用させていただきます。');
+    closeModal();
+  }
+
+  // ⌘K
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      alert('⌘K グローバル検索（モック）');
+    }
+  });
+</script>
+
+</body>
+</html>

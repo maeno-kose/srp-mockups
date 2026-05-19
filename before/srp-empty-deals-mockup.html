@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>シンクロニシティシステムズ - 商談（空状態）</title>
+<style>
+  :root {
+    --brand: #6366f1;
+    --brand-light: #818cf8;
+    --brand-dark: #4f46e5;
+    --accent: #ec4899;
+    --bg: #f7f8fc;
+    --bg-grad-1: #eef2ff;
+    --bg-grad-2: #fdf4ff;
+    --card: #ffffff;
+    --text: #1f2937;
+    --text-soft: #6b7280;
+    --text-mute: #9ca3af;
+    --border: #e5e7eb;
+    --border-soft: #f3f4f6;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+    --focus-ring: 0 0 0 3px rgba(99,102,241,0.25);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
+                 "Hiragino Sans", "Yu Gothic UI", Meiryo, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ヘッダー共通 */
+  .header {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .logo-mark { flex-shrink: 0; display: block; }
+  .logo-text-wrap { display: flex; flex-direction: column; line-height: 1.1; }
+  .logo-text {
+    font-weight: 700;
+    font-size: 15px;
+    background: linear-gradient(135deg, var(--brand), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: -0.005em;
+  }
+  .logo-sub {
+    font-size: 9px;
+    color: var(--text-mute);
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    margin-top: 1px;
+  }
+  @media (max-width: 480px) { .logo-text { font-size: 14px; } .logo-sub { display: none; } }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .search-trigger {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 14px;
+    display: flex; align-items: center; gap: 8px;
+    color: var(--text-soft);
+    font-size: 13px;
+    cursor: pointer;
+    min-width: 240px;
+  }
+  .search-trigger:hover { border-color: var(--brand-light); }
+  .search-trigger .kbd {
+    margin-left: auto;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 11px;
+    font-family: ui-monospace, monospace;
+  }
+  .icon-btn {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: transparent;
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-soft);
+    font-size: 18px;
+  }
+  .icon-btn:hover { background: var(--bg); }
+  .avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--brand), var(--accent));
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 13px;
+    cursor: pointer;
+  }
+
+  /* メイン */
+  .main {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 32px;
+  }
+
+  .crumbs { font-size: 12px; color: var(--text-mute); }
+  .crumbs a { color: var(--text-soft); text-decoration: none; }
+  .crumbs a:hover { color: var(--brand-dark); }
+  .page-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 4px 0;
+    letter-spacing: -0.005em;
+  }
+  .page-meta {
+    font-size: 13px;
+    color: var(--text-soft);
+    margin-bottom: 24px;
+  }
+
+  /* ステージプレビュー（飾り） */
+  .stage-preview {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 18px;
+    overflow-x: auto;
+  }
+  .stage-row {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(120px, 1fr));
+    gap: 8px;
+    min-width: 700px;
+  }
+  .stage-col {
+    background: var(--bg);
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+    min-height: 96px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: var(--text-mute);
+  }
+  .stage-col .s-emoji { font-size: 18px; opacity: 0.7; }
+  .stage-col .s-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-soft);
+  }
+  .stage-col .s-count {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-mute);
+  }
+  .stage-col .s-count small {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-mute);
+    margin-left: 2px;
+  }
+
+  /* 空状態カード */
+  .empty-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 64px 32px 56px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .empty-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 90% 10%, rgba(99,102,241,0.08), transparent 30%),
+      radial-gradient(circle at 10% 90%, rgba(236,72,153,0.06), transparent 30%);
+    pointer-events: none;
+  }
+  .empty-illust {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    border-radius: 32px;
+    background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2));
+    margin-bottom: 24px;
+    z-index: 1;
+  }
+  .empty-illust .emoji {
+    font-size: 56px;
+    line-height: 1;
+    filter: drop-shadow(0 4px 8px rgba(99,102,241,0.15));
+  }
+  /* パイプラインっぽい矢印モチーフ */
+  .empty-illust .arrow {
+    position: absolute;
+    bottom: -8px;
+    right: -10px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--success), #34d399);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 4px 12px rgba(16,185,129,0.30);
+    animation: bounceArrow 2.4s ease-in-out infinite;
+  }
+  @keyframes bounceArrow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+
+  .empty-title {
+    position: relative;
+    z-index: 1;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.005em;
+  }
+  .empty-lead {
+    position: relative;
+    z-index: 1;
+    font-size: 14px;
+    color: var(--text-soft);
+    max-width: 480px;
+    margin: 0 auto 28px;
+    line-height: 1.7;
+  }
+  .cta-row {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .btn {
+    padding: 11px 22px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-primary { background: var(--brand); color: #fff; }
+  .btn-primary:hover {
+    background: var(--brand-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99,102,241,0.30);
+  }
+  .btn-secondary {
+    background: #fff;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover {
+    border-color: var(--brand-light);
+    background: var(--bg);
+  }
+  .btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+  .ai-cta {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+    font-size: 13px;
+    color: var(--brand-dark);
+    cursor: pointer;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: background 0.15s;
+  }
+  .ai-cta:hover { background: var(--bg-grad-1); }
+  .ai-cta-icon {
+    width: 24px; height: 24px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--brand), var(--accent));
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+  }
+
+  .tip-strip {
+    margin-top: 24px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 1px solid #fde68a;
+    border-radius: 12px;
+    font-size: 13px;
+    color: #854d0e;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+  }
+  .tip-strip .tip-icon { font-size: 22px; flex-shrink: 0; }
+  .tip-strip strong { color: #78350f; }
+
+  /* 隣接の次は何？ */
+  .next-suggest {
+    margin-top: 28px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 24px;
+    box-shadow: var(--shadow);
+  }
+  .next-suggest h3 {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .next-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 768px) { .next-list { grid-template-columns: 1fr; } }
+  .next-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--bg);
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .next-item:hover {
+    border-color: var(--brand-light);
+    background: #fff;
+    transform: translateY(-1px);
+  }
+  .next-icon {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: var(--bg-grad-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .next-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+  .next-desc { font-size: 11px; color: var(--text-soft); }
+
+  @media (max-width: 768px) {
+    .main { padding: 16px; }
+    .header { padding: 12px 16px; }
+    .search-trigger { display: none; }
+    .empty-card { padding: 48px 20px 40px; }
+    .empty-illust { width: 96px; height: 96px; border-radius: 24px; }
+    .empty-illust .emoji { font-size: 44px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo" onclick="location.href='srp-home-mockup.html'">
+    <svg class="logo-mark" width="28" height="28" viewBox="0 0 36 36" aria-label="シンクロニシティシステムズ">
+      <defs>
+        <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#6366f1"/>
+          <stop offset="100%" stop-color="#ec4899"/>
+        </linearGradient>
+      </defs>
+      <line x1="18" y1="6"  x2="6"  y2="22" stroke="url(#logoGrad)" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+      <line x1="18" y1="6"  x2="30" y2="22" stroke="url(#logoGrad)" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+      <line x1="6"  y1="22" x2="18" y2="30" stroke="url(#logoGrad)" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+      <line x1="30" y1="22" x2="18" y2="30" stroke="url(#logoGrad)" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+      <line x1="6"  y1="22" x2="30" y2="22" stroke="url(#logoGrad)" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+      <line x1="18" y1="6"  x2="18" y2="30" stroke="url(#logoGrad)" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+      <circle cx="18" cy="6"  r="3" fill="url(#logoGrad)"/>
+      <circle cx="6"  cy="22" r="3" fill="url(#logoGrad)"/>
+      <circle cx="30" cy="22" r="3" fill="url(#logoGrad)"/>
+      <circle cx="18" cy="30" r="3" fill="url(#logoGrad)"/>
+    </svg>
+    <div class="logo-text-wrap">
+      <div class="logo-text">シンクロニシティシステムズ</div>
+      <div class="logo-sub">SYNCHRONICITY SYSTEMS</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="search-trigger" onclick="alert('⌘K グローバル検索（モック）')">
+      <span>🔍</span>
+      <span>取引先・タスクなど検索</span>
+      <span class="kbd">⌘K</span>
+    </div>
+    <button class="icon-btn" title="通知">🔔</button>
+    <div class="avatar" title="前野晃征">K</div>
+  </div>
+</header>
+
+<main class="main">
+
+  <div class="crumbs">
+    <a href="srp-home-mockup.html">ホーム</a> ／ 商談
+  </div>
+  <h1 class="page-title">商談の流れ</h1>
+  <p class="page-meta">案件の進捗を6段階（見込み・評価中・提案中・交渉中・受注・失注）で管理します</p>
+
+  <!-- ステージプレビュー -->
+  <div class="stage-preview" aria-label="商談ステージのプレビュー">
+    <div class="stage-row">
+      <div class="stage-col">
+        <span class="s-emoji" aria-hidden="true">👀</span>
+        <span class="s-name">見込み</span>
+        <span class="s-count">0<small>件</small></span>
+      </div>
+      <div class="stage-col">
+        <span class="s-emoji" aria-hidden="true">🔍</span>
+        <span class="s-name">評価中</span>
+        <span class="s-count">0<small>件</small></span>
+      </div>
+      <div class="stage-col">
+        <span class="s-emoji" aria-hidden="true">📄</span>
+        <span class="s-name">提案中</span>
+        <span class="s-count">0<small>件</small></span>
+      </div>
+      <div class="stage-col">
+        <span class="s-emoji" aria-hidden="true">🤝</span>
+        <span class="s-name">交渉中</span>
+        <span class="s-count">0<small>件</small></span>
+      </div>
+      <div class="stage-col">
+        <span class="s-emoji" aria-hidden="true">🎉</span>
+        <span class="s-name">受注</span>
+        <span class="s-count">0<small>件</small></span>
+      </div>
+      <div class="stage-col">
+        <span class="s-emoji" aria-hidden="true">🙏</span>
+        <span class="s-name">失注</span>
+        <span class="s-count">0<small>件</small></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 空状態カード -->
+  <div class="empty-card">
+    <div class="empty-illust">
+      <span class="emoji" aria-hidden="true">💼</span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </div>
+    <h2 class="empty-title">まだ商談がありません</h2>
+    <p class="empty-lead">
+      最初の商談を作って、案件の進捗を可視化しましょう。<br>
+      お客様と金額を入れるだけ。詳細はAIがあとから整えてくれます。
+    </p>
+
+    <div class="cta-row">
+      <button class="btn btn-primary" onclick="alert('新規商談の作成画面へ（モック）')">
+        <span aria-hidden="true">＋</span> 新しい商談を作る
+      </button>
+      <button class="btn btn-secondary" onclick="alert('テンプレ商談を読み込み（モック）')">
+        <span aria-hidden="true">📋</span> サンプル商談を作る
+      </button>
+    </div>
+
+    <div class="ai-cta" onclick="alert('AIアシスタントを起動（モック）')">
+      <span class="ai-cta-icon" aria-hidden="true">🤖</span>
+      <span>AIに「○○社と100万円の商談を作って」と話しかける</span>
+    </div>
+
+    <div class="tip-strip">
+      <span class="tip-icon" aria-hidden="true">💡</span>
+      <span><strong>商談ってなに？</strong>「お客様との取引のチャンス」のことです。問い合わせや見積依頼が来たら1件追加 → 進捗を6段階で動かしていくだけ。</span>
+    </div>
+  </div>
+
+  <!-- 次は何？ -->
+  <div class="next-suggest">
+    <h3><span aria-hidden="true">➡️</span> 商談を始める前にこちらも便利です</h3>
+    <div class="next-list">
+      <div class="next-item" onclick="location.href='srp-empty-accounts-mockup.html'">
+        <div class="next-icon" aria-hidden="true">🤝</div>
+        <div>
+          <div class="next-title">お客様を登録する</div>
+          <div class="next-desc">商談はお客様にひも付けます</div>
+        </div>
+      </div>
+      <div class="next-item" onclick="alert('見積一覧（モック）')">
+        <div class="next-icon" aria-hidden="true">📄</div>
+        <div>
+          <div class="next-title">見積書を作る</div>
+          <div class="next-desc">商談に紐づく見積を作成</div>
+        </div>
+      </div>
+      <div class="next-item" onclick="alert('ステージ説明（モック）')">
+        <div class="next-icon" aria-hidden="true">📖</div>
+        <div>
+          <div class="next-title">6段階の使い方を見る</div>
+          <div class="next-desc">どのタイミングで動かすか</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+</body>
+</html>
