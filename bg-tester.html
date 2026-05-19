@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>SRP 背景色テスター — ホーム画面</title>
+<style>
+  :root{--primary:#2C5282;--ink:#1C1917;--sub:#57534E;--border:#E7E5E4;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Inter Tight","Noto Sans JP",-apple-system,Meiryo,sans-serif;background:#F5F5F4;color:var(--ink);}
+  header{background:#1C1917;color:#fff;padding:14px 20px;}
+  header h1{font-size:15px;}
+  header p{font-size:12px;color:#A8A29E;margin-top:3px;}
+  .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 20px;background:#fff;border-bottom:1px solid var(--border);}
+  .bar .lab{font-size:12px;color:var(--sub);margin-right:4px;}
+  .bar button{font:inherit;font-size:12px;padding:7px 12px;border:1px solid var(--border);
+    background:#fff;color:var(--ink);border-radius:6px;cursor:pointer;display:flex;align-items:center;gap:7px;}
+  .bar button.on{border-color:var(--primary);box-shadow:inset 0 0 0 1px var(--primary);font-weight:600;}
+  .bar button .dot{width:14px;height:14px;border-radius:3px;border:1px solid rgba(0,0,0,.15);}
+  .bar .hex{font-size:11px;color:var(--sub);}
+  iframe{width:100%;height:80vh;border:none;border-top:1px solid var(--border);background:#fff;display:block;}
+  .note{font-size:12px;color:var(--sub);padding:12px 20px;line-height:1.7;}
+</style>
+</head>
+<body>
+<header>
+  <h1>SRP 背景色テスター — ホーム画面</h1>
+  <p>ボタンでキャンバス（背景）の色を切り替えます。ヘッダーは濃色クローム・カードは白で固定。</p>
+</header>
+<div class="bar" id="bar">
+  <span class="lab">背景色：</span>
+</div>
+<iframe id="frame" src="srp-home-mockup.html"></iframe>
+<div class="note" id="note"></div>
+<script>
+  var opts=[
+    {name:"暖色グレー（現行）",hex:"#F5F5F4",dark:false,desc:"現行B。ニュートラルで無難。"},
+    {name:"薄い青",hex:"#EBEFF4",dark:false,desc:"主役のSteel Blueと調和。ややクール。"},
+    {name:"グレー",hex:"#ECEBE9",dark:false,desc:"暖色寄りニュートラルグレー。落ち着いた印象。"},
+    {name:"灰色（クール）",hex:"#E9ECEF",dark:false,desc:"わずかに青みのあるひんやりグレー。"},
+    {name:"薄いブラック",hex:"#26221F",dark:true,desc:"ダーク基調。白カードが際立つ。※簡易プレビュー：本格的なダークUI化はパネル/文字の反転が別途必要。"}
+  ];
+  var frame=document.getElementById("frame"),
+      bar=document.getElementById("bar"),
+      note=document.getElementById("note"),
+      current=0, ready=false;
+
+  function apply(i){
+    current=i;
+    var o=opts[i];
+    var css="html,body{background:"+o.hex+" !important;}";
+    if(o.dark){
+      // 簡易：キャンバス直置きの文字を明色化（白カード内は維持）
+      css+="body>*:not(.header){color:#E7E5E4;}"
+          +".section-title,.greeting,.greeting *,.sec-head,.sec-head *{color:#FAFAF9 !important;}";
+    }
+    try{
+      var doc=frame.contentDocument;
+      var s=doc.getElementById("bgtest");
+      if(!s){s=doc.createElement("style");s.id="bgtest";doc.head.appendChild(s);}
+      s.textContent=css;
+    }catch(e){}
+    var bs=bar.querySelectorAll("button");
+    for(var k=0;k<bs.length;k++){bs[k].className=(k===i)?"on":"";}
+    note.innerHTML="<b>"+o.name+"</b>（"+o.hex+"）— "+o.desc;
+  }
+  opts.forEach(function(o,i){
+    var b=document.createElement("button");
+    b.innerHTML='<span class="dot" style="background:'+o.hex+'"></span>'+o.name
+               +' <span class="hex">'+o.hex+'</span>';
+    b.onclick=function(){if(ready)apply(i);};
+    bar.appendChild(b);
+  });
+  frame.addEventListener("load",function(){ready=true;apply(current);});
+</script>
+</body>
+</html>
