@@ -25,21 +25,13 @@
   .wrap { max-width: 880px; margin: 0 auto; padding: 28px 24px 64px; }
   .note { background: var(--primary-soft); border-left: 4px solid var(--primary);
           padding: 14px 16px; border-radius: 6px; font-size: 13px; color: var(--ink); margin-bottom: 24px; }
-  .pick { background: #fff; border: 1px solid var(--amber); border-radius: 8px;
-          padding: 16px; margin-bottom: 28px; }
-  .pick b { color: var(--amber); }
   h2 { font-size: 14px; color: var(--sub); margin: 28px 0 12px; font-weight: 600; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
   a.card { display: block; background: #fff; border: 1px solid var(--border); border-radius: 8px;
            padding: 16px; text-decoration: none; color: var(--ink); transition: .12s; }
   a.card:hover { border-color: var(--primary); box-shadow: 0 1px 6px rgba(16,24,40,.1); }
-  a.card.feat { border-color: var(--primary); background: var(--primary-soft); }
   a.card .t { font-weight: 600; font-size: 14px; }
   a.card .d { font-size: 12px; color: var(--sub); margin-top: 4px; }
-  .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 10px;
-         background: var(--primary-soft); color: var(--primary-dark); margin-left: 6px; }
-  .tag.ref { background: #f0ece6; color: #8a6d4a; }
-  .tag.new { background: var(--amber); color: #fff; }
   footer { color: var(--sub); font-size: 12px; margin-top: 36px; border-top: 1px solid var(--border); padding-top: 16px; }
   .palette { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
   .sw { width: 64px; }
@@ -55,12 +47,7 @@
 <div class="wrap">
   <div class="note">
     「AIでよくある色味」のフィードバックを受け、配色を <b>SAP Fiori / Microsoft Dynamics 型のエンタープライズブルー</b> に刷新しました。<br>
-    indigo+pink+グラデ多用 → <b>真の青（色相210°）を主役1色</b>＋低彩度の琥珀アクセント。グラデーションは全廃しました。
-  </div>
-
-  <div class="pick">
-    🎨 <b>ロゴは選定中です。</b>「ロゴ6案」ページで見比べて、Slackで番号を教えてください。
-    （※下の各画面モック内のロゴはまだ旧ロゴのままです。選定後に全画面へ反映します）
+    indigo+pink+グラデ多用 → <b>真の青（色相210°）を主役1色</b>＋低彩度の琥珀アクセント。グラデーションは全廃。<b>ロゴは現状維持</b>です。
   </div>
 
   <h2>新カラーパレット（案1）</h2>
@@ -70,11 +57,6 @@
     <div class="sw"><div class="chip" style="background:#B9791F"></div><div class="lbl">琥珀</div></div>
     <div class="sw"><div class="chip" style="background:#1A2733"></div><div class="lbl">文字</div></div>
     <div class="sw"><div class="chip" style="background:#F5F6F8"></div><div class="lbl">背景</div></div>
-  </div>
-
-  <h2>▶ ロゴ案（要選定）</h2>
-  <div class="grid">
-    <a class="card feat" href="srp-logo-proposals.html"><div class="t">ロゴ 6案<span class="tag new">選んでください</span></div><div class="d">案1配色のカラーロゴ6案。白背景／濃紺反転／小サイズで比較</div></a>
   </div>
 
   <h2>主要画面</h2>
@@ -100,7 +82,7 @@
 
   <h2>参考</h2>
   <div class="grid">
-    <a class="card" href="srp-logo-options.html"><div class="t">旧ロゴ案<span class="tag ref">旧・参考</span></div><div class="d">配色刷新前のロゴ案</div></a>
+    <a class="card" href="srp-logo-options.html"><div class="t">ロゴ案（参考）</div><div class="d">既存のロゴ案</div></a>
   </div>
 
   <footer>
